@@ -23,6 +23,7 @@ red_header.place(x=0, y=0)
 # Глобальный бизнес
 global_business_lb = Label(text='Глобальный бизнес',font=font15, fg=white_color, bg=red_color)
 global_business_lb.place(x=30, y=7)
+
 # Телеграмм
 tg_logo = PhotoImage(file='tg_logo.png')
 tg = Label(image=tg_logo, bg=red_color, borderwidth=0)
@@ -35,6 +36,7 @@ vk.place(x=280, y=10)
 yt_logo = PhotoImage(file='yt_logo.png')
 yt = Label(image=yt_logo, bg=red_color, borderwidth=0)
 yt.place(x=320, y=10)
+
 # Сеть АЗС
 network_lb = Label(text='Сеть АЗС',font=font15, fg=white_color, bg=red_color)
 network_lb.place(x=525, y=7)
@@ -47,6 +49,23 @@ vacancies_lb.place(x=725, y=7)
 # Контакты
 contacts_lb = Label(text='Контакты',font=font15, fg=white_color, bg=red_color)
 contacts_lb.place(x=825, y=7)
+
+
+# Поиск
+def search_clear(event):
+    search.delete(0, END)
+def search_start(event):
+    search.insert(0, '  Поиск')
+
+
+search = Entry(main_window, font=font15, fg='gray', bg=white_color)
+search.place(x=935, y=9, width=265, height=25)
+search.insert(0, '  Поиск')
+search.bind('<ButtonPress>', search_clear)
+search.bind('<Deactivate>', search_start)
+search_img = PhotoImage(file='search.png')
+search_button = Button(image=search_img, bg=white_color, borderwidth=0)
+search_button.place(x=1175, y=13)
 
 
 # Черный заголовок
