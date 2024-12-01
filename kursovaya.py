@@ -6,7 +6,10 @@ white_color = '#ffffff'
 black_color = '#000000'
 gray_color = '#e9928d'
 red_color = '#db2b36'
+font12 = 'Cuprum 12 normal'
+font14 = 'Cuprum 14 normal'
 font15 = 'Cuprum 15 bold'
+font16 = 'Cuprum 16 normal'
 font17 = 'Cuprum 17 bold'
 
 
@@ -20,23 +23,53 @@ main_window.title('ЛУКОИЛ - Официальный сайт Компани
 # Красный заголовок
 red_header = Canvas(width=1280, height=40, bg=red_color, borderwidth=0, highlightthickness=0)
 red_header.place(x=0, y=0)
+red_header.create_polygon(210, 20, 220, 20, 215, 25, fill=white_color, activefill=gray_color)
 
 # Глобальный бизнес
+def global_business_gray(event):
+    global_business_lb['fg'] = gray_color
+def global_business_white(event):
+    global_business_lb['fg'] = white_color
 global_business_lb = Label(text='Глобальный бизнес',font=font15, fg=white_color, bg=red_color)
 global_business_lb.place(x=30, y=7)
+global_business_lb.bind('<Enter>', global_business_gray)
+global_business_lb.bind('<Leave>', global_business_white)
 
 # Телеграмм
-tg_logo = PhotoImage(file='tg_logo.png')
-tg = Label(image=tg_logo, bg=red_color, borderwidth=0, highlightthickness=0)
+def tg_red(event):
+    tg['image'] = tg_logo2
+def tg_white(event):
+    tg['image'] = tg_logo1
+tg_logo1 = PhotoImage(file='tg_logo1.png')
+tg_logo2 = PhotoImage(file='tg_logo2.png')
+tg = Label(image=tg_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 tg.place(x=240, y=9)
+tg.bind('<Enter>', tg_red)
+tg.bind('<Leave>', tg_white)
+
 # ВК
-vk_logo = PhotoImage(file='vk_logo.png')
-vk = Label(image=vk_logo, bg=red_color, borderwidth=0, highlightthickness=0)
+def vk_red(event):
+    vk['image'] = vk_logo2
+def vk_white(event):
+    vk['image'] = vk_logo1
+vk_logo1 = PhotoImage(file='vk_logo1.png')
+vk_logo2 = PhotoImage(file='vk_logo2.png')
+vk = Label(image=vk_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 vk.place(x=280, y=9)
+vk.bind('<Enter>', vk_red)
+vk.bind('<Leave>', vk_white)
+
 # Ютуб
-yt_logo = PhotoImage(file='yt_logo.png')
-yt = Label(image=yt_logo, bg=red_color, borderwidth=0, highlightthickness=0)
+def yt_red(event):
+    yt['image'] = yt_logo2
+def yt_white(event):
+    yt['image'] = yt_logo1
+yt_logo1 = PhotoImage(file='yt_logo1.png')
+yt_logo2 = PhotoImage(file='yt_logo2.png')
+yt = Label(image=yt_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 yt.place(x=320, y=9)
+yt.bind('<Enter>', yt_red)
+yt.bind('<Leave>', yt_white)
 
 # Сеть АЗС
 def network_gray(event):
@@ -172,8 +205,77 @@ improvement_lb.place(x=1035, y=130)
 improvement_lb.bind('<Enter>', improvement_red)
 improvement_lb.bind('<Leave>', improvement_white)
 
+# Шрифты
+
+# A1
+a1_lb = Label(text='А',font=font12, fg=red_color, bg=black_color)
+a1_lb.place(x=1210, y=79)
+
+# A2
+def a2_red(event):
+    a2_lb['fg'] = red_color
+def a2_white(event):
+    a2_lb['fg'] = white_color
+a2_lb = Label(text='А',font=font14, fg=white_color, bg=black_color)
+a2_lb.place(x=1225, y=76)
+a2_lb.bind('<Enter>', a2_red)
+a2_lb.bind('<Leave>', a2_white)
+
+# A3
+def a3_red(event):
+    a3_lb['fg'] = red_color
+def a3_white(event):
+    a3_lb['fg'] = white_color
+a3_lb = Label(text='А',font=font16, fg=white_color, bg=black_color)
+a3_lb.place(x=1240, y=75)
+a3_lb.bind('<Enter>', a3_red)
+a3_lb.bind('<Leave>', a3_white)
 
 
+# Постеры
+poster1_img = PhotoImage(file='poster1.png')
+poster2_img = PhotoImage(file='poster2.png')
+poster3_img = PhotoImage(file='poster3.png')
+poster4_img = PhotoImage(file='poster4.png')
+poster5_img = PhotoImage(file='poster5.png')
+poster6_img = PhotoImage(file='poster6.png')
+
+
+poster = Label(image=poster1_img, bg=white_color, borderwidth=0, highlightthickness=0)
+poster.place(x=27, y=190)
+
+def poster1():
+    global poster
+    poster['image'] = poster1_img
+def poster2():
+    global poster
+    poster['image'] = poster2_img
+def poster3():
+    global poster
+    poster['image'] = poster3_img
+def poster4():
+    global poster
+    poster['image'] = poster4_img
+def poster5():
+    global poster
+    poster['image'] = poster5_img
+def poster6():
+    global poster
+    poster['image'] = poster6_img
+
+empty_png = PhotoImage(file='empty.png')
+button1 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster1)
+button1.place(x=1121, y=202)
+button2 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster2)
+button2.place(x=1139, y=202)
+button3 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster3)
+button3.place(x=1158, y=202)
+button4 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster4)
+button4.place(x=1177, y=202)
+button5 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster5)
+button5.place(x=1195, y=202)
+button6 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster6)
+button6.place(x=1214, y=202)
 
 
 
