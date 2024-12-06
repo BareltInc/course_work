@@ -393,7 +393,8 @@ def account_window():
             bonuses_lb.place(x=209, y=350)
 
     registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
-                                 width=28, height=2, relief='flat', borderwidth=0, command=log_in)
+                                 width=28, height=2, relief='flat', borderwidth=0, command=log_in,
+                                 activebackground=gray_color, activeforeground=white_color)
     registration_button.place(x=35, y=375)
 
 
@@ -402,7 +403,9 @@ def account_window():
 account_image_white = PhotoImage(file='user_white.png')
 account_image_gray = PhotoImage(file='user_gray.png')
 
-account_button = Button(image=account_image_white, bg=red_color, borderwidth=0, highlightthickness=0, command=account_window)
+account_button = Button(image=account_image_white, bg=red_color,
+                        borderwidth=0, highlightthickness=0, activebackground=red_color,
+                        command=account_window)
 account_button.place(x=1245, y=9)
 account_button.bind('<Enter>', account_gray)
 account_button.bind('<Leave>', account_white)
