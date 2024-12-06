@@ -49,7 +49,6 @@ tg = Label(image=tg_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 tg.place(x=240, y=9)
 tg.bind('<Enter>', tg_red)
 tg.bind('<Leave>', tg_white)
-
 # ВК
 def vk_red(event):
     vk['image'] = vk_logo2
@@ -61,7 +60,6 @@ vk = Label(image=vk_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 vk.place(x=280, y=9)
 vk.bind('<Enter>', vk_red)
 vk.bind('<Leave>', vk_white)
-
 # Ютуб
 def yt_red(event):
     yt['image'] = yt_logo2
@@ -73,6 +71,7 @@ yt = Label(image=yt_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 yt.place(x=320, y=9)
 yt.bind('<Enter>', yt_red)
 yt.bind('<Leave>', yt_white)
+
 
 # Сеть АЗС
 def network_gray(event):
@@ -138,8 +137,10 @@ div_lang.place(x=1180, y=8)
 languages = ['RU', 'EN']
 languages_default = StringVar(value=languages[0])
 languages_choose = ttk.Combobox(main_window, textvariable=languages_default, values=languages,
-                                height=35, width=2, font=font14b)
+                                height=35, width=2, font=font14b, foreground=red_color,
+                                state='readonly')
 languages_choose.place(x=1190, y=7)
+
 
 # Черный заголовок
 black_header = Canvas(width=1280, height=100, bg=black_color, borderwidth=0, highlightthickness=0)
@@ -209,11 +210,9 @@ improvement_lb.bind('<Enter>', improvement_red)
 improvement_lb.bind('<Leave>', improvement_white)
 
 # Шрифты
-
 # A1
 a1_lb = Label(text='А',font=font12, fg=red_color, bg=black_color)
 a1_lb.place(x=1210, y=79)
-
 # A2
 def a2_red(event):
     a2_lb['fg'] = red_color
@@ -223,7 +222,6 @@ a2_lb = Label(text='А',font=font14, fg=white_color, bg=black_color)
 a2_lb.place(x=1225, y=76)
 a2_lb.bind('<Enter>', a2_red)
 a2_lb.bind('<Leave>', a2_white)
-
 # A3
 def a3_red(event):
     a3_lb['fg'] = red_color
@@ -242,11 +240,8 @@ poster3_img = PhotoImage(file='poster3.png')
 poster4_img = PhotoImage(file='poster4.png')
 poster5_img = PhotoImage(file='poster5.png')
 poster6_img = PhotoImage(file='poster6.png')
-
-
 poster = Label(image=poster1_img, bg=white_color, borderwidth=0, highlightthickness=0)
 poster.place(x=27, y=190)
-
 def poster1():
     global poster
     poster['image'] = poster1_img
@@ -266,27 +261,29 @@ def poster6():
     global poster
     poster['image'] = poster6_img
 
-empty_png = PhotoImage(file='empty.png')
-button1 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster1)
+empty = PhotoImage(file='empty.png')
+button1 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster1)
 button1.place(x=1121, y=202)
-button2 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster2)
+button2 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster2)
 button2.place(x=1139, y=202)
-button3 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster3)
+button3 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster3)
 button3.place(x=1158, y=202)
-button4 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster4)
+button4 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster4)
 button4.place(x=1177, y=202)
-button5 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster5)
+button5 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster5)
 button5.place(x=1195, y=202)
-button6 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster6)
+button6 = Button(image=empty, bg=red_color, borderwidth=0, highlightthickness=0, command=poster6)
 button6.place(x=1214, y=202)
+
 
 # Личный кабинет
 def account_gray(event):
     account_button['image'] = account_image_gray
 def account_white(event):
     account_button['image'] = account_image_white
-
 def account_window():
+    user = []
+    logged_in = False
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
     acc_window.title('Личный кабинет пользователя')
@@ -296,32 +293,35 @@ def account_window():
     acc_window.user_logo_img = PhotoImage(file='user_big.png')
     user_logo = Label(acc_window, image=acc_window.user_logo_img, bg=white_color, highlightthickness=0)
     user_logo.place(x=136, y=0)
-    welcome_lb = Label(acc_window, text='Добро пожаловать!', font=font20b, bg=white_color, fg=black_color)
-    welcome_lb.place(x=87, y=130)
+    welcome_lb = Label(acc_window, text='Добро пожаловать!', width=26, justify='center', font=font20b, bg=red_color, fg=white_color)
+    welcome_lb.place(x=35, y=135)
     # Регистрация
     registration_lb = Label(acc_window, text='Регистрация', font=font17, bg=white_color, fg=red_color)
-    registration_lb.place(x=150, y=170)
+    registration_lb.place(x=150, y=175)
     # Имя
     user_name = StringVar()
     user_name_entry = Entry(acc_window, textvariable=user_name, width=28, fg=black_color, font=font17, justify='center',
-                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                            selectbackground=red_color)
     user_name_entry.place(x=35, y=210)
     user_name_entry.insert(0, 'Введите ваше имя')
     # Логин
     login = StringVar()
     login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
-                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                        selectbackground=red_color)
     login_entry.place(x=35, y=260)
     login_entry.insert(0, 'Придумайте логин')
     # Пароль
     password = StringVar()
     password_entry = Entry(acc_window, textvariable=password, width=28, fg=black_color, font=font17, justify='center', show='',
-                           relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+                           relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                           selectbackground=red_color)
     password_entry.place(x=35, y=310)
     password_entry.insert(0, 'Придумайте пароль')
-
+    # Ввод имени
     def user_name_clear(event):
-        if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя':
+        if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != ('*'*17):
             pass
         else:
             user_name_entry.delete(0, END)
@@ -333,8 +333,7 @@ def account_window():
             user_name_entry.insert(0, 'Введите ваше имя')
     user_name_entry.bind('<FocusIn>', user_name_clear)
     user_name_entry.bind('<FocusOut>', user_name_start)
-
-
+    # Ввод логина
     def login_clear(event):
         if login_entry.get() and login_entry.get() != 'Придумайте логин':
             pass
@@ -348,9 +347,7 @@ def account_window():
             login_entry.insert(0, 'Придумайте логин')
     login_entry.bind('<FocusIn>', login_clear)
     login_entry.bind('<FocusOut>', login_start)
-
-
-
+    # Ввод пароля
     def password_clear(event):
         if password_entry.get() and password_entry.get() != 'Придумайте пароль':
             pass
@@ -364,20 +361,39 @@ def account_window():
             password_entry.insert(0, 'Придумайте пароль')
     def password_enter(event):
         password_entry['show'] = '*'
-
     password_entry.bind('<FocusIn>', password_clear)
     password_entry.bind('<FocusOut>', password_start)
     password_entry.bind('<KeyPress>', password_enter)
-
-
-    def get_registration():
+    # Получение данных о регистрации
+    def log_in():
         u_name = user_name_entry.get()
         u_login = login_entry.get()
         u_password = password_entry.get()
-        print(u_name, u_login, u_password)
+        user = [u_name, u_login, u_password]
+        print(user)
 
-    registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color, width=28, height=2,
-                                 relief='flat', borderwidth=0, command=get_registration)
+        if user:
+            welcome_lb['text'] = user[0]
+            registration_lb.destroy()
+            user_name_entry.destroy()
+            login_entry.destroy()
+            password_entry.destroy()
+            registration_button.destroy()
+            acc_window.expenses_img = PhotoImage(file='expenses.png')
+            acc_window.bonuses_img = PhotoImage(file='bonuses.png')
+            expenses_img_lb = Button(acc_window, image=acc_window.expenses_img, bg=white_color, relief='flat', borderwidth=0)
+            expenses_img_lb.place(x=54, y=210)
+            expenses_lb= Label(acc_window, text='Расходы', font=font17, fg=red_color, bg=white_color, justify='center',
+                               width=11)
+            expenses_lb.place(x=54, y=350)
+            bonuses_img_lb = Button(acc_window, image=acc_window.bonuses_img, bg=white_color, relief='flat', borderwidth=0)
+            bonuses_img_lb.place(x=219, y=210)
+            bonuses_lb= Label(acc_window, text='Бонусы и скидки', font=font17, fg=red_color, bg=white_color,
+                              width=13)
+            bonuses_lb.place(x=209, y=350)
+
+    registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
+                                 width=28, height=2, relief='flat', borderwidth=0, command=log_in)
     registration_button.place(x=35, y=375)
 
 
@@ -387,7 +403,7 @@ account_image_white = PhotoImage(file='user_white.png')
 account_image_gray = PhotoImage(file='user_gray.png')
 
 account_button = Button(image=account_image_white, bg=red_color, borderwidth=0, highlightthickness=0, command=account_window)
-account_button.place(x=1245,y=9)
+account_button.place(x=1245, y=9)
 account_button.bind('<Enter>', account_gray)
 account_button.bind('<Leave>', account_white)
 
