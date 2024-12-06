@@ -8,10 +8,13 @@ gray_color = '#e9928d'
 red_color = '#db2b36'
 font12 = 'Cuprum 12 normal'
 font14 = 'Cuprum 14 normal'
-font15 = 'Cuprum 15 bold'
+font14b = 'Cuprum 14 bold'
+font15b = 'Cuprum 15 bold'
 font16 = 'Cuprum 16 normal'
-font17 = 'Cuprum 17 bold'
-
+font17 = 'Cuprum 17 normal'
+font17b = 'Cuprum 17 bold'
+font20 = 'Cuprum 20 normal'
+font20b = 'Cuprum 20 bold'
 
 # Определение параметров окна
 main_window = Tk()
@@ -30,7 +33,7 @@ def global_business_gray(event):
     global_business_lb['fg'] = gray_color
 def global_business_white(event):
     global_business_lb['fg'] = white_color
-global_business_lb = Label(text='Глобальный бизнес',font=font15, fg=white_color, bg=red_color)
+global_business_lb = Label(text='Глобальный бизнес',font=font15b, fg=white_color, bg=red_color)
 global_business_lb.place(x=30, y=7)
 global_business_lb.bind('<Enter>', global_business_gray)
 global_business_lb.bind('<Leave>', global_business_white)
@@ -76,8 +79,8 @@ def network_gray(event):
     network_lb['fg'] = gray_color
 def network_white(event):
     network_lb['fg'] = white_color
-network_lb = Label(text='Сеть АЗС',font=font15, fg=white_color, bg=red_color)
-network_lb.place(x=525, y=7)
+network_lb = Label(text='Сеть АЗС',font=font15b, fg=white_color, bg=red_color)
+network_lb.place(x=495, y=7)
 network_lb.bind('<Enter>', network_gray)
 network_lb.bind('<Leave>', network_white)
 
@@ -86,8 +89,8 @@ def tenders_gray(event):
     tenders_lb['fg'] = gray_color
 def tenders_white(event):
     tenders_lb['fg'] = white_color
-tenders_lb = Label(text='Тендеры',font=font15, fg=white_color, bg=red_color)
-tenders_lb.place(x=625, y=7)
+tenders_lb = Label(text='Тендеры',font=font15b, fg=white_color, bg=red_color)
+tenders_lb.place(x=595, y=7)
 tenders_lb.bind('<Enter>', tenders_gray)
 tenders_lb.bind('<Leave>', tenders_white)
 
@@ -96,8 +99,8 @@ def vacancies_gray(event):
     vacancies_lb['fg'] = gray_color
 def vacancies_white(event):
     vacancies_lb['fg'] = white_color
-vacancies_lb = Label(text='Вакансии',font=font15, fg=white_color, bg=red_color)
-vacancies_lb.place(x=725, y=7)
+vacancies_lb = Label(text='Вакансии',font=font15b, fg=white_color, bg=red_color)
+vacancies_lb.place(x=695, y=7)
 vacancies_lb.bind('<Enter>', vacancies_gray)
 vacancies_lb.bind('<Leave>', vacancies_white)
 
@@ -106,8 +109,8 @@ def contacts_gray(event):
     contacts_lb['fg'] = gray_color
 def contacts_white(event):
     contacts_lb['fg'] = white_color
-contacts_lb = Label(text='Контакты',font=font15, fg=white_color, bg=red_color)
-contacts_lb.place(x=825, y=7)
+contacts_lb = Label(text='Контакты',font=font15b, fg=white_color, bg=red_color)
+contacts_lb.place(x=795, y=7)
 contacts_lb.bind('<Enter>', contacts_gray)
 contacts_lb.bind('<Leave>', contacts_white)
 
@@ -118,25 +121,25 @@ def search_clear(event):
 def search_start(event):
     search.insert(0, '  Поиск')
 
-search = Entry(main_window, font=font15, fg=gray_color, bg=white_color)
-search.place(x=935, y=9, width=265, height=25)
+search = Entry(main_window, font=font15b, fg=gray_color, bg=white_color, borderwidth=0, highlightthickness=0)
+search.place(x=905, y=8, width=265, height=25)
 search.insert(0, '  Поиск')
 search.bind('<ButtonPress>', search_clear)
 search.bind('<Deactivate>', search_start)
 div_search = Canvas(width=1, height=15, bg=red_color, borderwidth=0, highlightthickness=0, relief='flat')
-div_search.place(x=1160, y=13)
+div_search.place(x=1130, y=13)
 search_img = PhotoImage(file='search.png')
 search_button = Button(image=search_img, bg=white_color, borderwidth=0, highlightthickness=0, relief='flat')
-search_button.place(x=1172, y=13)
+search_button.place(x=1142, y=13)
 
 # Выбор языка
 div_lang = Canvas(width=1, height=25, bg=white_color, borderwidth=0, highlightthickness=0)
-div_lang.place(x=1210, y=9)
+div_lang.place(x=1180, y=8)
 languages = ['RU', 'EN']
 languages_default = StringVar(value=languages[0])
-languages_choose = ttk.Combobox(textvariable=languages_default, values=languages, height=35, width=2, font=font17)
-languages_choose.place(x=1222, y=7)
-
+languages_choose = ttk.Combobox(main_window, textvariable=languages_default, values=languages,
+                                height=35, width=2, font=font14b)
+languages_choose.place(x=1190, y=7)
 
 # Черный заголовок
 black_header = Canvas(width=1280, height=100, bg=black_color, borderwidth=0, highlightthickness=0)
@@ -277,7 +280,67 @@ button5.place(x=1195, y=202)
 button6 = Button(image=empty_png, bg=red_color, borderwidth=0, highlightthickness=0, command=poster6)
 button6.place(x=1214, y=202)
 
+# Личный кабинет
+def account_gray(event):
+    account_button['image'] = account_image_gray
+def account_white(event):
+    account_button['image'] = account_image_white
 
+def account_window():
+    # Окно личного кабинета
+    acc_window = Toplevel(main_window)
+    acc_window.title('Личный кабинет пользователя')
+    acc_window.config(width=500, height=600, bg=white_color)
+    acc_window.resizable(False, False)
+
+    acc_window.user_logo_img = PhotoImage(file='user_big.png')
+    user_logo = Label(acc_window, image=acc_window.user_logo_img, bg=white_color, highlightthickness=0)
+    user_logo.place(x=186, y=0)
+    welcome_lb = Label(acc_window, text='Добро пожаловать!', font=font20b, bg=white_color, fg=black_color)
+    welcome_lb.place(x=140, y=130)
+    # Регистрация
+    registration_lb = Label(acc_window, text='Регистрация', font=font17, bg=white_color, fg=red_color)
+    registration_lb.place(x=200, y=170)
+    # Имя
+    user_name_entry = Entry(acc_window, width=28, font=font17, justify='center', relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+    user_name_entry.place(x=85, y=210)
+    user_name_entry.insert(0, 'Введите ваше имя')
+    # Логин
+    login_entry = Entry(acc_window, width=28, font=font17, justify='center', relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+    login_entry.place(x=85, y=260)
+    login_entry.insert(0, 'Придумайте логин')
+    # Пароль
+    password_entry = Entry(acc_window, width=28, font=font17, justify='center', relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0)
+    password_entry.place(x=85, y=310)
+    password_entry.insert(0, 'Придумайте пароль')
+
+    def user_name_clear(event):
+        user_name_entry.delete(0, END)
+    user_name_entry.bind('<ButtonPress>', user_name_clear)
+    def user_name_start(event):
+        user_name_entry.insert(0, '  Поиск')
+    user_name_entry.bind('<Deactivate>', user_name_start)
+
+    def login_clear(event):
+        login_entry.delete(0, END)
+    login_entry.bind('<ButtonPress>', login_clear)
+    def password_clear(event):
+        password_entry.delete(0, END)
+    password_entry.bind('<ButtonPress>', password_clear)
+
+    registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color, width=27, height=2)
+    registration_button.place(x=87, y=370)
+
+
+
+
+account_image_white = PhotoImage(file='user_white.png')
+account_image_gray = PhotoImage(file='user_gray.png')
+
+account_button = Button(image=account_image_white, bg=red_color, borderwidth=0, highlightthickness=0, command=account_window)
+account_button.place(x=1245,y=9)
+account_button.bind('<Enter>', account_gray)
+account_button.bind('<Leave>', account_white)
 
 
 
