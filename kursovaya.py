@@ -277,13 +277,15 @@ button6.place(x=1214, y=202)
 
 
 # Личный кабинет
+
+user = []
+authorized = False
+
 def account_gray(event):
     account_button['image'] = account_image_gray
 def account_white(event):
     account_button['image'] = account_image_white
 def account_window():
-    user = []
-    logged_in = False
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
     acc_window.title('Личный кабинет пользователя')
@@ -293,111 +295,148 @@ def account_window():
     acc_window.user_logo_img = PhotoImage(file='user_big.png')
     user_logo = Label(acc_window, image=acc_window.user_logo_img, bg=white_color, highlightthickness=0)
     user_logo.place(x=136, y=0)
-    welcome_lb = Label(acc_window, text='Добро пожаловать!', width=26, justify='center', font=font20b, bg=red_color, fg=white_color)
-    welcome_lb.place(x=35, y=135)
+    welcome_lb = Label(acc_window, text='', width=31, justify='center', font=font20b, bg=black_color, fg=white_color)
+    welcome_lb.place(x=0, y=135)
+
     # Регистрация
-    registration_lb = Label(acc_window, text='Регистрация', font=font17, bg=white_color, fg=red_color)
-    registration_lb.place(x=150, y=175)
-    # Имя
-    user_name = StringVar()
-    user_name_entry = Entry(acc_window, textvariable=user_name, width=28, fg=black_color, font=font17, justify='center',
+    def logged_out():
+        welcome_lb['text'] = 'Добро пожаловать!'
+        registration_lb = Label(acc_window, text='Регистрация', font=font17, bg=white_color, fg=red_color)
+        registration_lb.place(x=150, y=175)
+        # Имя
+        user_name = StringVar()
+        user_name_entry = Entry(acc_window, textvariable=user_name, width=28, fg=black_color, font=font17,
+                                justify='center',
+                                relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                                selectbackground=red_color)
+        user_name_entry.place(x=35, y=210)
+        user_name_entry.insert(0, 'Введите ваше имя')
+        # Логин
+        login = StringVar()
+        login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
                             relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
                             selectbackground=red_color)
-    user_name_entry.place(x=35, y=210)
-    user_name_entry.insert(0, 'Введите ваше имя')
-    # Логин
-    login = StringVar()
-    login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
-                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
-                        selectbackground=red_color)
-    login_entry.place(x=35, y=260)
-    login_entry.insert(0, 'Придумайте логин')
-    # Пароль
-    password = StringVar()
-    password_entry = Entry(acc_window, textvariable=password, width=28, fg=black_color, font=font17, justify='center', show='',
-                           relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
-                           selectbackground=red_color)
-    password_entry.place(x=35, y=310)
-    password_entry.insert(0, 'Придумайте пароль')
-    # Ввод имени
-    def user_name_clear(event):
-        if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != ('*'*17):
-            pass
-        else:
-            user_name_entry.delete(0, END)
-    def user_name_start(event):
-        if user_name_entry.get():
-            pass
-        else:
-            user_name_entry.delete(0, END)
-            user_name_entry.insert(0, 'Введите ваше имя')
-    user_name_entry.bind('<FocusIn>', user_name_clear)
-    user_name_entry.bind('<FocusOut>', user_name_start)
-    # Ввод логина
-    def login_clear(event):
-        if login_entry.get() and login_entry.get() != 'Придумайте логин':
-            pass
-        else:
-            login_entry.delete(0, END)
-    def login_start(event):
-        if login_entry.get():
-            pass
-        else:
-            login_entry.delete(0, END)
-            login_entry.insert(0, 'Придумайте логин')
-    login_entry.bind('<FocusIn>', login_clear)
-    login_entry.bind('<FocusOut>', login_start)
-    # Ввод пароля
-    def password_clear(event):
-        if password_entry.get() and password_entry.get() != 'Придумайте пароль':
-            pass
-        else:
-           password_entry.delete(0, END)
-    def password_start(event):
-        if password_entry.get():
-            pass
-        else:
-            password_entry.delete(0, END)
-            password_entry.insert(0, 'Придумайте пароль')
-    def password_enter(event):
-        password_entry['show'] = '*'
-    password_entry.bind('<FocusIn>', password_clear)
-    password_entry.bind('<FocusOut>', password_start)
-    password_entry.bind('<KeyPress>', password_enter)
-    # Получение данных о регистрации
-    def log_in():
-        u_name = user_name_entry.get()
-        u_login = login_entry.get()
-        u_password = password_entry.get()
-        user = [u_name, u_login, u_password]
-        print(user)
+        login_entry.place(x=35, y=260)
+        login_entry.insert(0, 'Придумайте логин')
+        # Пароль
+        password = StringVar()
+        password_entry = Entry(acc_window, textvariable=password, width=28, fg=black_color, font=font17,
+                               justify='center', show='',
+                               relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                               selectbackground=red_color)
+        password_entry.place(x=35, y=310)
+        password_entry.insert(0, 'Придумайте пароль')
 
-        if user:
-            welcome_lb['text'] = user[0]
-            registration_lb.destroy()
-            user_name_entry.destroy()
-            login_entry.destroy()
-            password_entry.destroy()
-            registration_button.destroy()
-            acc_window.expenses_img = PhotoImage(file='expenses.png')
-            acc_window.bonuses_img = PhotoImage(file='bonuses.png')
-            expenses_img_lb = Button(acc_window, image=acc_window.expenses_img, bg=white_color, relief='flat', borderwidth=0)
-            expenses_img_lb.place(x=54, y=210)
-            expenses_lb= Label(acc_window, text='Расходы', font=font17, fg=red_color, bg=white_color, justify='center',
-                               width=11)
-            expenses_lb.place(x=54, y=350)
-            bonuses_img_lb = Button(acc_window, image=acc_window.bonuses_img, bg=white_color, relief='flat', borderwidth=0)
-            bonuses_img_lb.place(x=219, y=210)
-            bonuses_lb= Label(acc_window, text='Бонусы и скидки', font=font17, fg=red_color, bg=white_color,
-                              width=13)
-            bonuses_lb.place(x=209, y=350)
+        # Ввод имени
+        def user_name_clear(event):
+            if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != (
+                    '*' * 17):
+                pass
+            else:
+                user_name_entry.delete(0, END)
+        def user_name_start(event):
+            if user_name_entry.get():
+                pass
+            else:
+                user_name_entry.delete(0, END)
+                user_name_entry.insert(0, 'Введите ваше имя')
+        user_name_entry.bind('<FocusIn>', user_name_clear)
+        user_name_entry.bind('<FocusOut>', user_name_start)
 
-    registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
-                                 width=28, height=2, relief='flat', borderwidth=0, command=log_in,
-                                 activebackground=gray_color, activeforeground=white_color)
-    registration_button.place(x=35, y=375)
+        # Ввод логина
+        def login_clear(event):
+            if login_entry.get() and login_entry.get() != 'Придумайте логин':
+                pass
+            else:
+                login_entry.delete(0, END)
+        def login_start(event):
+            if login_entry.get():
+                pass
+            else:
+                login_entry.delete(0, END)
+                login_entry.insert(0, 'Придумайте логин')
+        login_entry.bind('<FocusIn>', login_clear)
+        login_entry.bind('<FocusOut>', login_start)
+
+        # Ввод пароля
+        def password_clear(event):
+            if password_entry.get() and password_entry.get() != 'Придумайте пароль':
+                pass
+            else:
+                password_entry.delete(0, END)
+        def password_start(event):
+            if password_entry.get():
+                pass
+            else:
+                password_entry.delete(0, END)
+                password_entry.insert(0, 'Придумайте пароль')
+        def password_enter(event):
+            password_entry['show'] = '*'
+
+        password_entry.bind('<FocusIn>', password_clear)
+        password_entry.bind('<FocusOut>', password_start)
+        password_entry.bind('<KeyPress>', password_enter)
+
+        # Получение данных о регистрации
+        def log_in():
+            global user, authorized
+            u_name = user_name_entry.get()
+            u_login = login_entry.get()
+            u_password = password_entry.get()
+            user = [u_name, u_login, u_password]
+            authorized = True
+            if authorized:
+                logged_in()
+                registration_lb.destroy()
+                user_name_entry.destroy()
+                login_entry.destroy()
+                password_entry.destroy()
+                registration_button.destroy()
+
+        registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
+                                     width=28, height=2, relief='flat', borderwidth=0, command=log_in,
+                                     activebackground=gray_color, activeforeground=white_color)
+        registration_button.place(x=35, y=375)
 
 
+    def logged_in():
+        def log_out():
+            global authorized
+            authorized = False
+            expenses_img_lb.destroy()
+            expenses_lb.destroy()
+            bonuses_img_lb.destroy()
+            bonuses_lb.destroy()
+            logged_out()
+
+        welcome_lb['text'] = user[0]
+
+        acc_window.expenses_img = PhotoImage(file='expenses.png')
+        acc_window.bonuses_img = PhotoImage(file='bonuses.png')
+        expenses_img_lb = Button(acc_window, image=acc_window.expenses_img, bg=white_color, relief='flat',
+                                 borderwidth=0, activebackground=white_color)
+        expenses_img_lb.place(x=54, y=210)
+        expenses_lb = Label(acc_window, text='Расходы', font=font17, fg=red_color, bg=white_color, justify='center',
+                            width=11)
+        expenses_lb.place(x=54, y=350)
+        bonuses_img_lb = Button(acc_window, image=acc_window.bonuses_img, bg=white_color, relief='flat',
+                                borderwidth=0,
+                                activebackground=white_color)
+        bonuses_img_lb.place(x=219, y=210)
+        bonuses_lb = Label(acc_window, text='Бонусы и скидки', font=font17, fg=red_color, bg=white_color,
+                           width=13)
+        bonuses_lb.place(x=209, y=350)
+
+        log_out_button = Button(acc_window, text='Выйти', bg=white_color, fg=black_color, font=font16,
+                                relief='flat', borderwidth=0, activebackground=white_color, command=log_out)
+        log_out_button.place(x=170, y=450)
+
+
+    if authorized == False:
+        logged_out()
+
+    if authorized:
+        logged_in()
 
 
 account_image_white = PhotoImage(file='user_white.png')
