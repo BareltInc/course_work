@@ -407,6 +407,7 @@ def account_window():
             expenses_lb.destroy()
             bonuses_img_lb.destroy()
             bonuses_lb.destroy()
+            log_out_button.destroy()
             logged_out()
 
         welcome_lb['text'] = user[0]
