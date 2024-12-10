@@ -21,6 +21,7 @@ main_window = Tk()
 main_window.config(width=1280, height=720, bg=white_color)
 main_window.resizable(False, False)
 main_window.title('ЛУКОИЛ - Официальный сайт Компании «ЛУКОИЛ»')
+main_window.iconbitmap('logo.ico')
 
 
 # Красный заголовок
@@ -289,8 +290,9 @@ def account_window():
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
     acc_window.title('Личный кабинет пользователя')
-    acc_window.config(width=400, height=500, bg=white_color)
+    acc_window.config(width=400, height=480, bg=white_color)
     acc_window.resizable(False, False)
+    acc_window.iconbitmap('logo.ico')
 
     acc_window.user_logo_img = PhotoImage(file='user_big.png')
     user_logo = Label(acc_window, image=acc_window.user_logo_img, bg=white_color, highlightthickness=0)
@@ -410,33 +412,61 @@ def account_window():
             log_out_button.destroy()
             logged_out()
 
+        def expenses_window():
+            exp_window = Toplevel(main_window)
+            exp_window.title('История транзакций')
+            exp_window.config(width=400, height=500, bg=white_color)
+            exp_window.resizable(False, False)
+            exp_window.iconbitmap('logo.ico')
+
+            exp_window.user_logo_img = PhotoImage(file='user_big.png')
+            user_logo = Label(exp_window, image=exp_window.user_logo_img, bg=white_color, highlightthickness=0)
+            user_logo.place(x=136, y=0)
+            name_lb = Label(exp_window, text=user[0], width=31, justify='center', font=font20b, bg=black_color,
+                               fg=white_color)
+            name_lb.place(x=0, y=135)
+
+        def bonuses_window():
+            bonus_window = Toplevel(main_window)
+            bonus_window.title('Бонусы')
+            bonus_window.config(width=400, height=500, bg=white_color)
+            bonus_window.resizable(False, False)
+            bonus_window.iconbitmap('logo.ico')
+
+            bonus_window.user_logo_img = PhotoImage(file='user_big.png')
+            user_logo = Label(bonus_window, image=bonus_window.user_logo_img, bg=white_color, highlightthickness=0)
+            user_logo.place(x=136, y=0)
+            name_lb = Label(bonus_window, text=user[0], width=31, justify='center', font=font20b, bg=black_color,
+                               fg=white_color)
+            name_lb.place(x=0, y=135)
+
+
         welcome_lb['text'] = user[0]
 
         acc_window.expenses_img = PhotoImage(file='expenses.png')
         acc_window.bonuses_img = PhotoImage(file='bonuses.png')
         expenses_img_lb = Button(acc_window, image=acc_window.expenses_img, bg=white_color, relief='flat',
-                                 borderwidth=0, activebackground=white_color)
-        expenses_img_lb.place(x=54, y=210)
-        expenses_lb = Label(acc_window, text='Расходы', font=font17, fg=red_color, bg=white_color, justify='center',
+                                 borderwidth=0, activebackground=white_color, command=expenses_window)
+        expenses_img_lb.place(x=54, y=225)
+        expenses_lb = Label(acc_window, text='Транзакции', font=font17, fg=red_color, bg=white_color, justify='center',
                             width=11)
-        expenses_lb.place(x=54, y=350)
+        expenses_lb.place(x=54, y=365)
         bonuses_img_lb = Button(acc_window, image=acc_window.bonuses_img, bg=white_color, relief='flat',
-                                borderwidth=0,
-                                activebackground=white_color)
-        bonuses_img_lb.place(x=219, y=210)
+                                borderwidth=0, activebackground=white_color, command=bonuses_window)
+        bonuses_img_lb.place(x=219, y=225)
         bonuses_lb = Label(acc_window, text='Бонусы и скидки', font=font17, fg=red_color, bg=white_color,
                            width=13)
-        bonuses_lb.place(x=209, y=350)
+        bonuses_lb.place(x=209, y=365)
 
         log_out_button = Button(acc_window, text='Выйти', bg=white_color, fg=black_color, font=font16,
                                 relief='flat', borderwidth=0, activebackground=white_color, command=log_out)
-        log_out_button.place(x=170, y=450)
+        log_out_button.place(x=170, y=430)
 
 
     if authorized == False:
         logged_out()
 
-    if authorized:
+    if authorized == True:
         logged_in()
 
 
