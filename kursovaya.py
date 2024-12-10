@@ -292,6 +292,9 @@ def account_white(event):
     account_button['image'] = account_image_white
 
 user_logo_img = PhotoImage(file='user_big.png')
+add_image = PhotoImage(file='add.png')
+add_image_gray = PhotoImage(file='add_gray.png')
+
 def account_window():
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
@@ -418,6 +421,16 @@ def account_window():
             logged_out()
 
         def expenses_window():
+
+            def add_transaction(event):
+                print('Добавить транзакцию')
+            def add_tr_gray(event):
+                add_transact_lb['fg'] = gray_color
+                add_image_lb['image'] = add_image_gray
+            def add_tr_red(event):
+                add_transact_lb['fg'] = red_color
+                add_image_lb['image'] = add_image
+
             exp_window = Toplevel(main_window)
             exp_window.title('История транзакций')
             exp_window.config(width=500, height=500, bg=white_color)
@@ -426,12 +439,23 @@ def account_window():
 
             user_logo = Label(exp_window, image=user_logo_img, bg=white_color, highlightthickness=0)
             user_logo.place(x=186, y=0)
-            name_lb = Label(exp_window, text=user[0], width=38, justify='center', font=font20b, bg=black_color,
-                               fg=white_color)
+            name_lb = Label(exp_window, text=user[0], width=38, justify='center', font=font20b, bg=black_color, fg=white_color)
             name_lb.place(x=0, y=135)
 
             transactions_lb = Label(exp_window, text='История транзакций', font=font17, bg=white_color, fg=red_color)
             transactions_lb.place(x=5, y=175)
+            add_image_lb = Label(exp_window, image=add_image, bg=white_color, activebackground=white_color)
+            add_image_lb.place(x=275, y=178)
+            add_transact_lb = Label(exp_window, text='Добавить транзакцию', font=font14b, bg=white_color, fg=red_color)
+            add_transact_lb.place(x=303, y=178)
+            add_transact_lb.bind('<Enter>', add_tr_gray)
+            add_transact_lb.bind('<Leave>', add_tr_red)
+            add_transact_lb.bind('<Button>', add_transaction)
+            add_image_lb.bind('<Enter>', add_tr_gray)
+            add_image_lb.bind('<Leave>', add_tr_red)
+            add_image_lb.bind('<Button>', add_transaction)
+
+
 
             headerstyle = ttk.Style()
             headerstyle.configure('Treeview.Heading', font=font17b)
@@ -450,12 +474,21 @@ def account_window():
             transactions_list.column('#5', anchor=CENTER, stretch=NO, width=95)
             transactions_list.heading('#5', text="Бонусы")
 
+            # date = '04/05/2023'
+            # litres = 20
+            # gas = '92'
+            # gas92 = 40
+            # summ = litres * gas92
+            # bonus = summ * 0.1
+
             for transaction in transactions:
                 transactions_list.insert('', END, values=(transaction['Дата'],
                                                          transaction['Литры'],
                                                          transaction['Бензин'],
                                                          transaction['Сумма'],
                                                          transaction['Бонусы'],))
+
+            # transactions_list.insert('', END, values=(date, litres, gas, summ, bonus))
 
             transactions_list.place(x=7, y=210)
 
