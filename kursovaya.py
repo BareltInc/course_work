@@ -281,11 +281,17 @@ button6.place(x=1214, y=202)
 
 user = []
 authorized = False
+transactions = [
+    {'Дата': '2024-10-26', 'Литры': 23, 'Бензин': '92', 'Сумма': '2300', 'Бонусы' : '23'},
+    {'Дата': '2024-10-27', 'Литры': 15, 'Бензин': '95', 'Сумма': '1500', 'Бонусы' : '15'}
+]
 
 def account_gray(event):
     account_button['image'] = account_image_gray
 def account_white(event):
     account_button['image'] = account_image_white
+
+user_logo_img = PhotoImage(file='user_big.png')
 def account_window():
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
@@ -294,8 +300,7 @@ def account_window():
     acc_window.resizable(False, False)
     acc_window.iconbitmap('logo.ico')
 
-    acc_window.user_logo_img = PhotoImage(file='user_big.png')
-    user_logo = Label(acc_window, image=acc_window.user_logo_img, bg=white_color, highlightthickness=0)
+    user_logo = Label(acc_window, image=user_logo_img, bg=white_color, highlightthickness=0)
     user_logo.place(x=136, y=0)
     welcome_lb = Label(acc_window, text='', width=31, justify='center', font=font20b, bg=black_color, fg=white_color)
     welcome_lb.place(x=0, y=135)
@@ -415,16 +420,45 @@ def account_window():
         def expenses_window():
             exp_window = Toplevel(main_window)
             exp_window.title('История транзакций')
-            exp_window.config(width=400, height=500, bg=white_color)
+            exp_window.config(width=500, height=500, bg=white_color)
             exp_window.resizable(False, False)
             exp_window.iconbitmap('logo.ico')
 
-            exp_window.user_logo_img = PhotoImage(file='user_big.png')
-            user_logo = Label(exp_window, image=exp_window.user_logo_img, bg=white_color, highlightthickness=0)
-            user_logo.place(x=136, y=0)
-            name_lb = Label(exp_window, text=user[0], width=31, justify='center', font=font20b, bg=black_color,
+            user_logo = Label(exp_window, image=user_logo_img, bg=white_color, highlightthickness=0)
+            user_logo.place(x=186, y=0)
+            name_lb = Label(exp_window, text=user[0], width=38, justify='center', font=font20b, bg=black_color,
                                fg=white_color)
             name_lb.place(x=0, y=135)
+
+            transactions_lb = Label(exp_window, text='История транзакций', font=font17, bg=white_color, fg=red_color)
+            transactions_lb.place(x=5, y=175)
+
+            headerstyle = ttk.Style()
+            headerstyle.configure('Treeview.Heading', font=font17b)
+            columnstyle = ttk.Style()
+            columnstyle.configure('Treeview', font=font16, background=white_color, foreground=black_color, fieldbackground="#E1E1E1")
+            columnstyle.map('Treeview', background=[('selected', red_color)])
+            transactions_list = ttk.Treeview(exp_window, columns=('Дата', 'Литры', 'Бензин', 'Сумма', 'Бонусы'), show="headings")
+            transactions_list.column('#1', anchor=CENTER, stretch=NO, width=100)
+            transactions_list.heading('#1', text='Дата')
+            transactions_list.column('#2', anchor=CENTER, stretch=NO, width=95)
+            transactions_list.heading('#2', text="Литры")
+            transactions_list.column('#3', anchor=CENTER, stretch=NO, width=95)
+            transactions_list.heading('#3', text="Бензин")
+            transactions_list.column('#4', anchor=CENTER, stretch=NO, width=100)
+            transactions_list.heading('#4', text="Сумма")
+            transactions_list.column('#5', anchor=CENTER, stretch=NO, width=95)
+            transactions_list.heading('#5', text="Бонусы")
+
+            for transaction in transactions:
+                transactions_list.insert('', END, values=(transaction['Дата'],
+                                                         transaction['Литры'],
+                                                         transaction['Бензин'],
+                                                         transaction['Сумма'],
+                                                         transaction['Бонусы'],))
+
+            transactions_list.place(x=7, y=210)
+
 
         def bonuses_window():
             bonus_window = Toplevel(main_window)
@@ -433,8 +467,7 @@ def account_window():
             bonus_window.resizable(False, False)
             bonus_window.iconbitmap('logo.ico')
 
-            bonus_window.user_logo_img = PhotoImage(file='user_big.png')
-            user_logo = Label(bonus_window, image=bonus_window.user_logo_img, bg=white_color, highlightthickness=0)
+            user_logo = Label(bonus_window, image=user_logo_img, bg=white_color, highlightthickness=0)
             user_logo.place(x=136, y=0)
             name_lb = Label(bonus_window, text=user[0], width=31, justify='center', font=font20b, bg=black_color,
                                fg=white_color)
