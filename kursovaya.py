@@ -423,6 +423,30 @@ def account_window():
         def expenses_window():
 
             def add_transaction(event):
+                add_window = Toplevel(main_window)
+                add_window.title('Добавление транзакции')
+                add_window.config(width=500, height=100, bg=white_color)
+                add_window.resizable(False, False)
+                add_window.iconbitmap('logo.ico')
+
+                date_label = Label(add_window, text="Дата:", font=font16, bg=white_color, fg=red_color)
+                date_label.place(x=0, y=5)
+                date_entry = Entry(add_window)
+                date_entry.place(x=0, y=30)
+
+                litres_label = Label(add_window, text="Литры:", font=font16, bg=white_color, fg=red_color)
+                litres_label.place(x=100, y=5)
+                litres_entry = Entry(add_window)
+                litres_entry.place(x=100, y=30)
+
+                gas_label = Label(add_window, text="Бензин:", font=font16, bg=white_color, fg=red_color)
+                gas_label.place(x=200, y=5)
+                gas_entry = Entry(add_window)
+                gas_entry.place(x=200, y=30)
+
+                add_button = Button(add_window, text="Добавить \n транзакцию", font=font16, bg=white_color, fg=red_color)
+                add_button.place(x=375, y=15)
+
                 print('Добавить транзакцию')
             def add_tr_gray(event):
                 add_transact_lb['fg'] = gray_color
