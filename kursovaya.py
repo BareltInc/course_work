@@ -282,10 +282,7 @@ button6.place(x=1214, y=202)
 
 user = []
 authorized = False
-transactions = [
-    {'Дата': '2024-10-26', 'Литры': 23, 'Бензин': '92', 'Сумма': '2300', 'Бонусы' : '23'},
-    {'Дата': '2024-10-27', 'Литры': 15, 'Бензин': '95', 'Сумма': '1500', 'Бонусы' : '15'}
-]
+transactions = []
 
 def account_gray(event):
     account_button['image'] = account_image_gray
@@ -412,23 +409,42 @@ def account_window():
 
     def logged_in():
         def log_out():
-            global authorized
+            global authorized, transactions
             authorized = False
             expenses_img_lb.destroy()
             expenses_lb.destroy()
             bonuses_img_lb.destroy()
             bonuses_lb.destroy()
             log_out_button.destroy()
+            transactions = []
             logged_out()
 
         def expenses_window():
             def add_transaction(event):
                 def get_transaction():
+                    price = 0
                     date = calendar.get_date()
-                    litres = litres_entry.get()
+                    litres = int(litres_entry.get())
                     gas = gas_choose.get()
-
+                    match gas:
+                        case 'N/A':
+                            price = 0
+                        case '92':
+                            price = 53
+                        case '95':
+                            price = 57
+                        case '100':
+                            price = 82
+                        case 'ДТ':
+                            price = 68
+                    summ = price*litres
+                    transactions.append({'Дата': date, 'Литры': litres, 'Бензин': gas, 'Сумма': summ, 'Бонусы': round(summ*0.1, 2)})
                     print(date, litres, gas)
+                    transactions_list.insert('', END, values=(transactions[-1]['Дата'],
+                                                              transactions[-1]['Литры'],
+                                                              transactions[-1]['Бензин'],
+                                                              transactions[-1]['Сумма'],
+                                                              transactions[-1]['Бонусы'],))
 
                 add_window = Toplevel(main_window)
                 add_window.title('Добавление транзакции')
@@ -449,7 +465,7 @@ def account_window():
                 litres_entry.place(x=10, y=235)
 
                 gas_label = Label(add_window, text="Бензин:", font=font16, bg=white_color, fg=red_color)
-                gas_label.place(x=195, y=210)
+                gas_label.place(x=175, y=210)
                 gas_types = ['N/A', '92', '95', '100', 'ДТ']
                 gas_var = StringVar(value=gas_types[0])
                 gas_style = ttk.Style()
@@ -457,7 +473,7 @@ def account_window():
                 gas_choose = ttk.Combobox(add_window, textvariable=gas_var, values=gas_types,
                                                 height=50, width=4, font=font14b, foreground=red_color,
                                                 state='readonly')
-                gas_choose.place(x=195, y=235)
+                gas_choose.place(x=175, y=235)
 
                 add_button = Button(add_window, text="Добавить транзакцию", font=font17b, width=20, bg=red_color, fg=white_color,
                                      height=2, relief='flat', borderwidth=0, command=get_transaction,
@@ -495,8 +511,6 @@ def account_window():
             add_image_lb.bind('<Leave>', add_tr_red)
             add_image_lb.bind('<Button>', add_transaction)
 
-
-
             headerstyle = ttk.Style()
             headerstyle.configure('Treeview.Heading', font=font17b)
             columnstyle = ttk.Style()
@@ -513,13 +527,6 @@ def account_window():
             transactions_list.heading('#4', text="Сумма")
             transactions_list.column('#5', anchor=CENTER, stretch=NO, width=95)
             transactions_list.heading('#5', text="Бонусы")
-
-            # date = '04/05/2023'
-            # litres = 20
-            # gas = '92'
-            # gas92 = 40
-            # summ = litres * gas92
-            # bonus = summ * 0.1
 
             for transaction in transactions:
                 transactions_list.insert('', END, values=(transaction['Дата'],
