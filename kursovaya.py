@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkcalendar import Calendar
 
 # Определение цветов и шрифтов
 white_color = '#ffffff'
@@ -421,33 +422,48 @@ def account_window():
             logged_out()
 
         def expenses_window():
-
             def add_transaction(event):
+                def get_transaction():
+                    date = calendar.get_date()
+                    litres = litres_entry.get()
+                    gas = gas_choose.get()
+
+                    print(date, litres, gas)
+
                 add_window = Toplevel(main_window)
                 add_window.title('Добавление транзакции')
-                add_window.config(width=500, height=100, bg=white_color)
+                add_window.config(width=275, height=360, bg=white_color)
                 add_window.resizable(False, False)
                 add_window.iconbitmap('logo.ico')
 
                 date_label = Label(add_window, text="Дата:", font=font16, bg=white_color, fg=red_color)
-                date_label.place(x=0, y=5)
-                date_entry = Entry(add_window)
-                date_entry.place(x=0, y=30)
+                date_label.place(x=10, y=5)
+                calendar = Calendar(add_window, selectmode='day',year=2024, month=12, day=22)
+                calendar.place(x=10, y=30)
 
                 litres_label = Label(add_window, text="Литры:", font=font16, bg=white_color, fg=red_color)
-                litres_label.place(x=100, y=5)
-                litres_entry = Entry(add_window)
-                litres_entry.place(x=100, y=30)
+                litres_label.place(x=10, y=210)
+                litres_entry = Entry(add_window, width=10, fg=black_color, font=font17, justify='center',
+                                     relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                                     selectbackground=black_color, highlightbackground=red_color)
+                litres_entry.place(x=10, y=235)
 
                 gas_label = Label(add_window, text="Бензин:", font=font16, bg=white_color, fg=red_color)
-                gas_label.place(x=200, y=5)
-                gas_entry = Entry(add_window)
-                gas_entry.place(x=200, y=30)
+                gas_label.place(x=195, y=210)
+                gas_types = ['N/A', '92', '95', '100', 'ДТ']
+                gas_var = StringVar(value=gas_types[0])
+                gas_style = ttk.Style()
+                gas_style.configure('TCombobox', selectbackground=red_color, fieldbackground= white_color, background=black_color)
+                gas_choose = ttk.Combobox(add_window, textvariable=gas_var, values=gas_types,
+                                                height=50, width=4, font=font14b, foreground=red_color,
+                                                state='readonly')
+                gas_choose.place(x=195, y=235)
 
-                add_button = Button(add_window, text="Добавить \n транзакцию", font=font16, bg=white_color, fg=red_color)
-                add_button.place(x=375, y=15)
+                add_button = Button(add_window, text="Добавить транзакцию", font=font17b, width=20, bg=red_color, fg=white_color,
+                                     height=2, relief='flat', borderwidth=0, command=get_transaction,
+                                     activebackground=gray_color, activeforeground=white_color)
+                add_button.place(x=12, y=280)
 
-                print('Добавить транзакцию')
             def add_tr_gray(event):
                 add_transact_lb['fg'] = gray_color
                 add_image_lb['image'] = add_image_gray
