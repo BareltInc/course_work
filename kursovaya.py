@@ -283,6 +283,7 @@ button6.place(x=1214, y=202)
 user = []
 authorized = False
 transactions = []
+bonuses = 0
 
 def account_gray(event):
     account_button['image'] = account_image_gray
@@ -292,6 +293,7 @@ def account_white(event):
 user_logo_img = PhotoImage(file='user_big.png')
 add_image = PhotoImage(file='add.png')
 add_image_gray = PhotoImage(file='add_gray.png')
+coin_img = PhotoImage(file='coin.png')
 
 def account_window():
     # Окно личного кабинета
@@ -422,6 +424,7 @@ def account_window():
         def expenses_window():
             def add_transaction(event):
                 def get_transaction():
+                    global bonuses
                     price = 0
                     date = calendar.get_date()
                     litres = int(litres_entry.get())
@@ -439,7 +442,8 @@ def account_window():
                             price = 68
                     summ = price*litres
                     transactions.append({'Дата': date, 'Литры': litres, 'Бензин': gas, 'Сумма': summ, 'Бонусы': round(summ*0.1, 2)})
-                    print(date, litres, gas)
+                    bonuses += round(summ*0.1, 2)
+                    print(date, litres, gas, bonuses)
                     transactions_list.insert('', END, values=(transactions[-1]['Дата'],
                                                               transactions[-1]['Литры'],
                                                               transactions[-1]['Бензин'],
@@ -516,7 +520,7 @@ def account_window():
             columnstyle = ttk.Style()
             columnstyle.configure('Treeview', font=font16, background=white_color, foreground=black_color, fieldbackground="#E1E1E1")
             columnstyle.map('Treeview', background=[('selected', red_color)])
-            transactions_list = ttk.Treeview(exp_window, columns=('Дата', 'Литры', 'Бензин', 'Сумма', 'Бонусы'), show="headings")
+            transactions_list = ttk.Treeview(exp_window, columns=('Дата', 'Литры', 'Бензин', 'Сумма', 'Бонусы'), show="headings", height=13)
             transactions_list.column('#1', anchor=CENTER, stretch=NO, width=100)
             transactions_list.heading('#1', text='Дата')
             transactions_list.column('#2', anchor=CENTER, stretch=NO, width=95)
@@ -527,31 +531,41 @@ def account_window():
             transactions_list.heading('#4', text="Сумма")
             transactions_list.column('#5', anchor=CENTER, stretch=NO, width=95)
             transactions_list.heading('#5', text="Бонусы")
-
             for transaction in transactions:
                 transactions_list.insert('', END, values=(transaction['Дата'],
                                                          transaction['Литры'],
                                                          transaction['Бензин'],
                                                          transaction['Сумма'],
                                                          transaction['Бонусы'],))
-
-            # transactions_list.insert('', END, values=(date, litres, gas, summ, bonus))
-
             transactions_list.place(x=7, y=210)
-
 
         def bonuses_window():
             bonus_window = Toplevel(main_window)
             bonus_window.title('Бонусы')
-            bonus_window.config(width=400, height=500, bg=white_color)
+            bonus_window.config(width=500, height=500, bg=white_color)
             bonus_window.resizable(False, False)
             bonus_window.iconbitmap('logo.ico')
 
             user_logo = Label(bonus_window, image=user_logo_img, bg=white_color, highlightthickness=0)
-            user_logo.place(x=136, y=0)
-            name_lb = Label(bonus_window, text=user[0], width=31, justify='center', font=font20b, bg=black_color,
+            user_logo.place(x=186, y=0)
+            name_lb = Label(bonus_window, text=user[0], width=38, justify='center', font=font20b, bg=black_color,
                                fg=white_color)
             name_lb.place(x=0, y=135)
+
+            coin_img_lb = Label(bonus_window, image=coin_img, bg=white_color)
+            coin_img_lb.place(x=50, y=220)
+            user_bonuses_lb = Label(bonus_window, text=f'Вы накопили \n{bonuses} бонусов', fg=red_color, bg=white_color, font=font17b)
+            user_bonuses_lb.place(x=50, y=370)
+
+            promocodes = ['LUKOIL-DRIVE20: \nСкидка 20% на топливо \nпри заправке от 1000 рублей',
+                          'LUKOIL-BONUS100: \n100 бонусных баллов \nпри первой заправке.',
+                          'LUKOIL-WEEKEND5: \nСкидка 5% на все товары \nв магазинах сети "Лукойл" \nпо выходным дням.']
+            y_pos = 185
+            for promocode in promocodes:
+                promolabel = Label(bonus_window, text=promocode, width=25, font=font16, bg=white_color, fg=black_color,
+                                   relief='solid', highlightthickness=2, borderwidth=0, highlightbackground=red_color)
+                promolabel.place(x=225, y=y_pos)
+                y_pos += 100
 
 
         welcome_lb['text'] = user[0]
