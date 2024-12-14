@@ -138,9 +138,13 @@ div_lang = Canvas(width=1, height=25, bg=white_color, borderwidth=0, highlightth
 div_lang.place(x=1180, y=8)
 languages = ['RU', 'EN']
 languages_default = StringVar(value=languages[0])
-languages_choose = ttk.Combobox(main_window, textvariable=languages_default, values=languages,
-                                height=35, width=2, font=font14b, foreground=red_color,
-                                state='readonly')
+lang_style = ttk.Style()
+lang_style.configure('TCombobox', selectbackground=white_color, selectforeground=red_color,
+                                    background=white_color, foreground=red_color, fieldbackground=white_color,
+                                    darkcolor=white_color,
+                                    lightcolor=white_color)
+languages_choose = ttk.Combobox(main_window, state='readonly', textvariable=languages_default, values=languages,
+                                height=35, width=2, font=font14b)
 languages_choose.place(x=1190, y=7)
 
 
@@ -279,12 +283,6 @@ button6.place(x=1214, y=202)
 
 
 # Личный кабинет
-
-user = []
-authorized = False
-transactions = []
-bonuses = 0
-
 def account_gray(event):
     account_button['image'] = account_image_gray
 def account_white(event):
@@ -295,7 +293,13 @@ add_image = PhotoImage(file='add.png')
 add_image_gray = PhotoImage(file='add_gray.png')
 coin_img = PhotoImage(file='coin.png')
 
+user = ['9']
+authorise_status = False
+reg_log = 'reg'
+transactions = []
+bonuses = 0
 def account_window():
+    global authorise_status
     # Окно личного кабинета
     acc_window = Toplevel(main_window)
     acc_window.title('Личный кабинет пользователя')
@@ -308,108 +312,137 @@ def account_window():
     welcome_lb = Label(acc_window, text='', width=31, justify='center', font=font20b, bg=black_color, fg=white_color)
     welcome_lb.place(x=0, y=135)
 
-    # Регистрация
-    def logged_out():
+    # Не авторизованный пользователь
+    def unauthorised():
+        global reg_log
         welcome_lb['text'] = 'Добро пожаловать!'
-        registration_lb = Label(acc_window, text='Регистрация', font=font17, bg=white_color, fg=red_color)
-        registration_lb.place(x=150, y=175)
-        # Имя
-        user_name = StringVar()
-        user_name_entry = Entry(acc_window, textvariable=user_name, width=28, fg=black_color, font=font17,
-                                justify='center',
+        reg_log_lb = Label(acc_window, text='Регистрация', font=font17b, bg=white_color, fg=red_color)
+        reg_log_lb.place(x=35, y=175)
+
+        # Регистрация
+        def reg(event):
+            reg_log_lb['text'] = 'Регистрация'
+            reg_log_button['text'] = 'Уже есть аккаунт?'
+            reg_log_button.place(x=225, y=177)
+            reg_log_button.bind('<Button>', log)
+            registration()
+        def registration():
+            # Имя
+            def user_name_clear(event):
+                if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != (
+                        '*' * 17):
+                    pass
+                else:
+                    user_name_entry.delete(0, END)
+            def user_name_start(event):
+                if user_name_entry.get():
+                    pass
+                else:
+                    user_name_entry.delete(0, END)
+                    user_name_entry.insert(0, 'Введите ваше имя')
+            user_name = StringVar()
+            user_name_entry = Entry(acc_window, textvariable=user_name, width=28, fg=black_color, font=font17,
+                                    justify='center',
+                                    relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                                    selectbackground=red_color)
+            user_name_entry.place(x=35, y=210)
+            user_name_entry.insert(0, 'Введите ваше имя')
+            user_name_entry.bind('<FocusIn>', user_name_clear)
+            user_name_entry.bind('<FocusOut>', user_name_start)
+            # Логин
+            def login_clear(event):
+                if login_entry.get() and login_entry.get() != 'Придумайте логин':
+                    pass
+                else:
+                    login_entry.delete(0, END)
+            def login_start(event):
+                if login_entry.get():
+                    pass
+                else:
+                    login_entry.delete(0, END)
+                    login_entry.insert(0, 'Придумайте логин')
+            login = StringVar()
+            login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
                                 relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
                                 selectbackground=red_color)
-        user_name_entry.place(x=35, y=210)
-        user_name_entry.insert(0, 'Введите ваше имя')
-        # Логин
-        login = StringVar()
-        login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
-                            relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
-                            selectbackground=red_color)
-        login_entry.place(x=35, y=260)
-        login_entry.insert(0, 'Придумайте логин')
-        # Пароль
-        password = StringVar()
-        password_entry = Entry(acc_window, textvariable=password, width=28, fg=black_color, font=font17,
-                               justify='center', show='',
-                               relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
-                               selectbackground=red_color)
-        password_entry.place(x=35, y=310)
-        password_entry.insert(0, 'Придумайте пароль')
+            login_entry.place(x=35, y=260)
+            login_entry.insert(0, 'Придумайте логин')
+            login_entry.bind('<FocusIn>', login_clear)
+            login_entry.bind('<FocusOut>', login_start)
+            # Пароль
+            def password_clear(event):
+                if password_entry.get() and password_entry.get() != 'Придумайте пароль':
+                    pass
+                else:
+                    password_entry.delete(0, END)
+            def password_start(event):
+                if password_entry.get():
+                    pass
+                else:
+                    password_entry.delete(0, END)
+                    password_entry.insert(0, 'Придумайте пароль')
+            def password_enter(event):
+                password_entry['show'] = '*'
+            password = StringVar()
+            password_entry = Entry(acc_window, textvariable=password, width=28, fg=black_color, font=font17,
+                                   justify='center', show='',
+                                   relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
+                                   selectbackground=red_color)
+            password_entry.place(x=35, y=310)
+            password_entry.insert(0, 'Придумайте пароль')
+            password_entry.bind('<FocusIn>', password_clear)
+            password_entry.bind('<FocusOut>', password_start)
+            password_entry.bind('<KeyPress>', password_enter)
 
-        # Ввод имени
-        def user_name_clear(event):
-            if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != (
-                    '*' * 17):
-                pass
-            else:
-                user_name_entry.delete(0, END)
-        def user_name_start(event):
-            if user_name_entry.get():
-                pass
-            else:
-                user_name_entry.delete(0, END)
-                user_name_entry.insert(0, 'Введите ваше имя')
-        user_name_entry.bind('<FocusIn>', user_name_clear)
-        user_name_entry.bind('<FocusOut>', user_name_start)
-
-        # Ввод логина
-        def login_clear(event):
-            if login_entry.get() and login_entry.get() != 'Придумайте логин':
-                pass
-            else:
-                login_entry.delete(0, END)
-        def login_start(event):
-            if login_entry.get():
-                pass
-            else:
-                login_entry.delete(0, END)
-                login_entry.insert(0, 'Придумайте логин')
-        login_entry.bind('<FocusIn>', login_clear)
-        login_entry.bind('<FocusOut>', login_start)
-
-        # Ввод пароля
-        def password_clear(event):
-            if password_entry.get() and password_entry.get() != 'Придумайте пароль':
-                pass
-            else:
-                password_entry.delete(0, END)
-        def password_start(event):
-            if password_entry.get():
-                pass
-            else:
-                password_entry.delete(0, END)
-                password_entry.insert(0, 'Придумайте пароль')
-        def password_enter(event):
-            password_entry['show'] = '*'
-
-        password_entry.bind('<FocusIn>', password_clear)
-        password_entry.bind('<FocusOut>', password_start)
-        password_entry.bind('<KeyPress>', password_enter)
+        # Вход
+        def log(event):
+            reg_log_lb['text'] = 'Войдите в аккаунт'
+            reg_log_button['text'] = 'Нет аккаунта?'
+            reg_log_button.place(x=260, y=177)
+            reg_log_button.bind('<Button>', reg)
+            log_in()
+        def log_in():
+            pass
 
         # Получение данных о регистрации
-        def log_in():
-            global user, authorized
-            u_name = user_name_entry.get()
-            u_login = login_entry.get()
-            u_password = password_entry.get()
-            user = [u_name, u_login, u_password]
-            authorized = True
-            if authorized:
-                logged_in()
-                registration_lb.destroy()
-                user_name_entry.destroy()
-                login_entry.destroy()
-                password_entry.destroy()
-                registration_button.destroy()
+        def authorise():
+            # global user, authorised
+            # u_name = user_name_entry.get()
+            # u_login = login_entry.get()
+            # u_password = password_entry.get()
+            # user = [u_name, u_login, u_password]
+            # authorised = True
+            # registration_lb.destroy()
+            # user_name_entry.destroy()
+            # login_entry.destroy()
+            # password_entry.destroy()
+            # registration_button.destroy()
+            # login_button.destroy()
+            # logged_in()
+            pass
 
-        registration_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
-                                     width=28, height=2, relief='flat', borderwidth=0, command=log_in,
+        if reg_log == 'reg':
+            registration()
+        if reg_log == 'log':
+            log_in()
+
+        def login_gray(event):
+            reg_log_button['fg'] = gray_color
+        def login_red(event):
+            reg_log_button['fg'] = red_color
+        reg_log_button = Label(acc_window, text='Уже есть аккаунт?', font=font16, bg=white_color, fg=red_color)
+        reg_log_button.place(x=225, y=177)
+        reg_log_button.bind('<Enter>', login_gray)
+        reg_log_button.bind('<Leave>', login_red)
+        reg_log_button.bind('<Button>', log)
+
+        authorise_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
+                                     width=28, height=2, relief='flat', borderwidth=0, command=authorise,
                                      activebackground=gray_color, activeforeground=white_color)
-        registration_button.place(x=35, y=375)
+        authorise_button.place(x=35, y=375)
 
-
-    def logged_in():
+    # Авторизованный пользователь
+    def authorised():
         def log_out():
             global authorized, transactions
             authorized = False
@@ -419,7 +452,7 @@ def account_window():
             bonuses_lb.destroy()
             log_out_button.destroy()
             transactions = []
-            logged_out()
+            unauthorised()
 
         def expenses_window():
             def add_transaction(event):
@@ -450,7 +483,7 @@ def account_window():
                                                               transactions[-1]['Сумма'],
                                                               transactions[-1]['Бонусы'],))
 
-                add_window = Toplevel(main_window)
+                add_window = Toplevel(exp_window)
                 add_window.title('Добавление транзакции')
                 add_window.config(width=275, height=360, bg=white_color)
                 add_window.resizable(False, False)
@@ -458,7 +491,8 @@ def account_window():
 
                 date_label = Label(add_window, text="Дата:", font=font16, bg=white_color, fg=red_color)
                 date_label.place(x=10, y=5)
-                calendar = Calendar(add_window, selectmode='day',year=2024, month=12, day=22)
+                calendar = Calendar(add_window, selectmode='day', year=2024, background=red_color, foreground=white_color,
+                                    selectbackground=red_color, selectforeground=white_color)
                 calendar.place(x=10, y=30)
 
                 litres_label = Label(add_window, text="Литры:", font=font16, bg=white_color, fg=red_color)
@@ -469,15 +503,16 @@ def account_window():
                 litres_entry.place(x=10, y=235)
 
                 gas_label = Label(add_window, text="Бензин:", font=font16, bg=white_color, fg=red_color)
-                gas_label.place(x=175, y=210)
+                gas_label.place(x=185, y=210)
                 gas_types = ['N/A', '92', '95', '100', 'ДТ']
                 gas_var = StringVar(value=gas_types[0])
                 gas_style = ttk.Style()
-                gas_style.configure('TCombobox', selectbackground=red_color, fieldbackground= white_color, background=black_color)
-                gas_choose = ttk.Combobox(add_window, textvariable=gas_var, values=gas_types,
-                                                height=50, width=4, font=font14b, foreground=red_color,
-                                                state='readonly')
-                gas_choose.place(x=175, y=235)
+                gas_style.configure('TCombobox', selectbackground=white_color, selectforeground=red_color,
+                                    background=white_color, foreground=red_color, fieldbackground=white_color,
+                                    darkcolor=red_color,
+                                    lightcolor=white_color)
+                gas_choose = ttk.Combobox(add_window, state='readonly', textvariable=gas_var, font=font17b, values=gas_types, width=4)
+                gas_choose.place(x=185, y=235)
 
                 add_button = Button(add_window, text="Добавить транзакцию", font=font17b, width=20, bg=red_color, fg=white_color,
                                      height=2, relief='flat', borderwidth=0, command=get_transaction,
@@ -589,12 +624,10 @@ def account_window():
                                 relief='flat', borderwidth=0, activebackground=white_color, command=log_out)
         log_out_button.place(x=170, y=430)
 
-
-    if authorized == False:
-        logged_out()
-
-    if authorized == True:
-        logged_in()
+    if authorise_status == False:
+        unauthorised()
+    if authorise_status == True:
+        authorised()
 
 
 account_image_white = PhotoImage(file='user_white.png')
