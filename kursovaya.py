@@ -320,20 +320,20 @@ def account_window():
         reg_log_lb.place(x=35, y=175)
 
         def authorise():
-            # global user, authorised
-            # u_name = user_name_entry.get()
-            # u_login = login_entry.get()
-            # u_password = password_entry.get()
-            # user = [u_name, u_login, u_password]
-            # authorised = True
-            # registration_lb.destroy()
-            # user_name_entry.destroy()
-            # login_entry.destroy()
-            # password_entry.destroy()
-            # registration_button.destroy()
-            # login_button.destroy()
-            # logged_in()
-            pass
+            global user, authorise_status
+            u_name = user_name_entry.get()
+            u_login = login_entry.get()
+            u_password = password_entry.get()
+            user = [u_name, u_login, u_password]
+            authorise_status = True
+            reg_log_lb.destroy()
+            user_name_entry.destroy()
+            login_entry.destroy()
+            password_entry.destroy()
+            authorise_button.destroy()
+            reg_log_button.destroy()
+            authorised()
+
         # Поля для ввода
         # Имя
         def user_name_clear(event):
@@ -358,7 +358,7 @@ def account_window():
 
         # Логин
         def login_clear(event):
-            if login_entry.get() and login_entry.get() != 'Придумайте логин':
+            if login_entry.get() and login_entry.get() != 'Придумайте логин' and login_entry.get() != 'Введите логин':
                 pass
             else:
                 login_entry.delete(0, END)
@@ -367,7 +367,11 @@ def account_window():
                 pass
             else:
                 login_entry.delete(0, END)
-                login_entry.insert(0, 'Придумайте логин')
+                if reg_log == 'reg':
+                    login_entry.insert(0, 'Придумайте логин')
+                if reg_log == 'log':
+                    login_entry.insert(0, 'Введите логин')
+
         login = StringVar()
         login_entry = Entry(acc_window, textvariable=login, width=28, fg=black_color, font=font17, justify='center',
                             relief='groove', highlightcolor=red_color, highlightthickness=2, borderwidth=0,
@@ -377,7 +381,7 @@ def account_window():
 
         # Пароль
         def password_clear(event):
-            if password_entry.get() and password_entry.get() != 'Придумайте пароль':
+            if password_entry.get() and password_entry.get() != 'Придумайте пароль' and password_entry.get() != 'Введите пароль':
                 pass
             else:
                 password_entry.delete(0, END)
@@ -386,7 +390,10 @@ def account_window():
                 pass
             else:
                 password_entry.delete(0, END)
-                password_entry.insert(0, 'Придумайте пароль')
+                if reg_log == 'reg':
+                    password_entry.insert(0, 'Придумайте пароль')
+                if reg_log == 'log':
+                    password_entry.insert(0, 'Введите пароль')
         def password_enter(event):
             password_entry['show'] = '*'
         password = StringVar()
@@ -405,6 +412,8 @@ def account_window():
 
         # Регистрация
         def reg(event):
+            global reg_log
+            reg_log = 'reg'
             reg_log_lb['text'] = 'Регистрация'
             reg_log_button['text'] = 'Уже есть аккаунт?'
             reg_log_button.place(x=225, y=177)
@@ -425,6 +434,8 @@ def account_window():
 
         # Вход
         def log(event):
+            global reg_log
+            reg_log = 'log'
             reg_log_lb['text'] = 'Войдите в аккаунт'
             reg_log_button['text'] = 'Нет аккаунта?'
             reg_log_button.place(x=260, y=177)
