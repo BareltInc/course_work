@@ -293,7 +293,7 @@ add_image = PhotoImage(file='add.png')
 add_image_gray = PhotoImage(file='add_gray.png')
 coin_img = PhotoImage(file='coin.png')
 
-user = ['9']
+user = []
 authorise_status = False
 reg_log = 'reg'
 transactions = []
@@ -320,19 +320,36 @@ def account_window():
         reg_log_lb.place(x=35, y=175)
 
         def authorise():
+            acc_window.config(width=400, height=480, bg=white_color)
             global user, authorise_status
-            u_name = user_name_entry.get()
-            u_login = login_entry.get()
-            u_password = password_entry.get()
-            user = [u_name, u_login, u_password]
-            authorise_status = True
-            reg_log_lb.destroy()
-            user_name_entry.destroy()
-            login_entry.destroy()
-            password_entry.destroy()
-            authorise_button.destroy()
-            reg_log_button.destroy()
-            authorised()
+            if reg_log == 'reg':
+                u_name = user_name_entry.get()
+                u_login = login_entry.get()
+                u_password = password_entry.get()
+                user = [u_name, u_login, u_password]
+                authorise_status = True
+                reg_log_lb.destroy()
+                user_name_entry.destroy()
+                login_entry.destroy()
+                password_entry.destroy()
+                authorise_button.destroy()
+                reg_log_button.destroy()
+                authorised()
+            if reg_log == 'log':
+                u_login = login_entry.get()
+                u_password = password_entry.get()
+                if user!=[] and user[1] == u_login and user[2] == u_password:
+                    authorise_status = True
+                    reg_log_lb.destroy()
+                    user_name_entry.destroy()
+                    login_entry.destroy()
+                    password_entry.destroy()
+                    authorise_button.destroy()
+                    reg_log_button.destroy()
+                    authorised()
+                else:
+                    acc_window.configure(width=400, height=420, bg=white_color)
+                    authorise_button['text'] = 'Ошибка'
 
         # Поля для ввода
         # Имя
@@ -394,7 +411,6 @@ def account_window():
                     password_entry.insert(0, 'Придумайте пароль')
                 if reg_log == 'log':
                     password_entry.insert(0, 'Введите пароль')
-
         def password_enter(event):
             password_entry['show'] = '*'
         password = StringVar()
@@ -474,7 +490,7 @@ def account_window():
     # Авторизованный пользователь
     def authorised():
         def log_out():
-            global authorized, transactions
+            global authorized, reg_log, transactions
             authorized = False
             expenses_img_lb.destroy()
             expenses_lb.destroy()
@@ -482,6 +498,7 @@ def account_window():
             bonuses_lb.destroy()
             log_out_button.destroy()
             transactions = []
+            reg_log = 'reg'
             unauthorised()
 
         def expenses_window():
