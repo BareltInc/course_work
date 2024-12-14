@@ -376,9 +376,12 @@ def account_window():
         # Логин
         def login_clear(event):
             if login_entry.get() and login_entry.get() != 'Придумайте логин' and login_entry.get() != 'Введите логин':
-                pass
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
             else:
                 login_entry.delete(0, END)
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
         def login_start(event):
             if login_entry.get():
                 pass
@@ -399,9 +402,12 @@ def account_window():
         # Пароль
         def password_clear(event):
             if password_entry.get() and password_entry.get() != 'Придумайте пароль' and password_entry.get() != 'Введите пароль':
-                pass
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
             else:
                 password_entry.delete(0, END)
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
         def password_start(event):
             if password_entry.get():
                 pass
