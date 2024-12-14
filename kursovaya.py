@@ -394,6 +394,7 @@ def account_window():
                     password_entry.insert(0, 'Придумайте пароль')
                 if reg_log == 'log':
                     password_entry.insert(0, 'Введите пароль')
+
         def password_enter(event):
             password_entry['show'] = '*'
         password = StringVar()
@@ -418,6 +419,7 @@ def account_window():
             reg_log_button['text'] = 'Уже есть аккаунт?'
             reg_log_button.place(x=225, y=177)
             reg_log_button.bind('<Button>', log)
+            acc_window.config(width=400, height=480, bg=white_color)
             registration()
         def registration():
             user_name_entry.place(x=35, y=210)
@@ -440,6 +442,7 @@ def account_window():
             reg_log_button['text'] = 'Нет аккаунта?'
             reg_log_button.place(x=260, y=177)
             reg_log_button.bind('<Button>', reg)
+            acc_window.config(width=400, height=420, bg=white_color)
             log_in()
         def log_in():
             user_name_entry.place(x=10000, y=10000)
