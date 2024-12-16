@@ -2,11 +2,10 @@ from tkinter import *
 from tkinter import ttk
 from tkcalendar import Calendar
 
-# Определение цветов и шрифтов
 white_color = '#ffffff'
 black_color = '#000000'
 gray_color = '#555555'
-dark_gray_color = '#222222'
+dark_gray_color = '#404040'
 red_gray_color = '#e9928d'
 red_color_day = '#db2b36'
 red_color_night = '#800000'
@@ -23,20 +22,16 @@ font17b = 'Cuprum 17 bold'
 font20 = 'Cuprum 20 normal'
 font20b = 'Cuprum 20 bold'
 
-# Определение параметров окна
 main_window = Tk()
 main_window.config(width=1280, height=747, bg=main_color)
 main_window.resizable(False, False)
 main_window.title('ЛУКОИЛ - Официальный сайт Компании «ЛУКОИЛ»')
 main_window.iconbitmap('logo.ico')
 
-
-# Красный заголовок
 red_header = Canvas(width=1280, height=40, bg=red_color, borderwidth=0, highlightthickness=0)
 red_header.place(x=0, y=0)
 red_header.create_polygon(210, 20, 220, 20, 215, 25, fill=white_color, activefill=red_gray_color)
 
-# Глобальный бизнес
 def global_business_gray(event):
     global_business_lb['fg'] = red_gray_color
 def global_business_white(event):
@@ -46,7 +41,6 @@ global_business_lb.place(x=30, y=7)
 global_business_lb.bind('<Enter>', global_business_gray)
 global_business_lb.bind('<Leave>', global_business_white)
 
-# Телеграмм
 def tg_red(event):
     tg['image'] = tg_logo2
 def tg_white(event):
@@ -57,7 +51,7 @@ tg = Label(image=tg_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 tg.place(x=240, y=9)
 tg.bind('<Enter>', tg_red)
 tg.bind('<Leave>', tg_white)
-# ВК
+
 def vk_red(event):
     vk['image'] = vk_logo2
 def vk_white(event):
@@ -68,7 +62,7 @@ vk = Label(image=vk_logo1, bg=red_color, borderwidth=0, highlightthickness=0)
 vk.place(x=280, y=9)
 vk.bind('<Enter>', vk_red)
 vk.bind('<Leave>', vk_white)
-# Ютуб
+
 def yt_red(event):
     yt['image'] = yt_logo2
 def yt_white(event):
@@ -80,8 +74,6 @@ yt.place(x=320, y=9)
 yt.bind('<Enter>', yt_red)
 yt.bind('<Leave>', yt_white)
 
-
-# Сеть АЗС
 def network_gray(event):
     network_lb['fg'] = red_gray_color
 def network_white(event):
@@ -91,7 +83,6 @@ network_lb.place(x=465, y=7)
 network_lb.bind('<Enter>', network_gray)
 network_lb.bind('<Leave>', network_white)
 
-# Тендеры
 def tenders_gray(event):
     tenders_lb['fg'] = red_gray_color
 def tenders_white(event):
@@ -101,7 +92,6 @@ tenders_lb.place(x=565, y=7)
 tenders_lb.bind('<Enter>', tenders_gray)
 tenders_lb.bind('<Leave>', tenders_white)
 
-# Вакансии
 def vacancies_gray(event):
     vacancies_lb['fg'] = red_gray_color
 def vacancies_white(event):
@@ -111,7 +101,6 @@ vacancies_lb.place(x=665, y=7)
 vacancies_lb.bind('<Enter>', vacancies_gray)
 vacancies_lb.bind('<Leave>', vacancies_white)
 
-# Контакты
 def contacts_gray(event):
     contacts_lb['fg'] = red_gray_color
 def contacts_white(event):
@@ -121,8 +110,6 @@ contacts_lb.place(x=765, y=7)
 contacts_lb.bind('<Enter>', contacts_gray)
 contacts_lb.bind('<Leave>', contacts_white)
 
-
-# Поиск
 def search_clear(event):
     search.delete(0, END)
 def search_start(event):
@@ -139,7 +126,6 @@ search_img = PhotoImage(file='search.png')
 search_button = Button(image=search_img, bg=main_color, borderwidth=0, highlightthickness=0, relief='flat')
 search_button.place(x=1112, y=13)
 
-# Выбор языка
 div_lang = Canvas(width=1, height=25, bg=main_color, borderwidth=0, highlightthickness=0)
 div_lang.place(x=1150, y=8)
 languages = ['RU', 'EN']
@@ -153,8 +139,6 @@ languages_choose = ttk.Combobox(main_window, state='readonly', textvariable=lang
                                 height=35, width=2, font=font14b)
 languages_choose.place(x=1160, y=7)
 
-
-# Черный заголовок
 black_header = Canvas(width=1280, height=100, bg=black_color, borderwidth=0, highlightthickness=0)
 black_header.place(x=0, y=65)
 logo_blackbg = PhotoImage(file='logo_blackbg.png')
@@ -163,7 +147,6 @@ logo_graybg = PhotoImage(file='logo_graybg.png')
 lukoil_logo = Label(image=logo_blackbg, bg=black_color, borderwidth=0, highlightthickness=0)
 lukoil_logo.place(x=30, y=85)
 
-# Компания
 def company_red(event):
     company_lb['fg'] = red_color_day
 def company_white(event):
@@ -173,7 +156,6 @@ company_lb.place(x=465, y=130)
 company_lb.bind('<Enter>', company_red)
 company_lb.bind('<Leave>', company_white)
 
-# Бизнес
 def business_red(event):
     business_lb['fg'] = red_color_day
 def business_white(event):
@@ -183,7 +165,6 @@ business_lb.place(x=580, y=130)
 business_lb.bind('<Enter>', business_red)
 business_lb.bind('<Leave>', business_white)
 
-# Инвесторы
 def investors_red(event):
     investors_lb['fg'] = red_color_day
 def investors_white(event):
@@ -193,7 +174,6 @@ investors_lb.place(x=660, y=130)
 investors_lb.bind('<Enter>', investors_red)
 investors_lb.bind('<Leave>', investors_white)
 
-# Пресс-центр
 def press_red(event):
     press_lb['fg'] = red_color_day
 def press_white(event):
@@ -203,7 +183,6 @@ press_lb.place(x=780, y=130)
 press_lb.bind('<Enter>', press_red)
 press_lb.bind('<Leave>', press_white)
 
-# Продукция
 def products_red(event):
     products_lb['fg'] = red_color_day
 def products_white(event):
@@ -213,7 +192,6 @@ products_lb.place(x=915, y=130)
 products_lb.bind('<Enter>', products_red)
 products_lb.bind('<Leave>', products_white)
 
-# Устойчивое развитие
 def improvement_red(event):
     improvement_lb['fg'] = red_color_day
 def improvement_white(event):
@@ -223,11 +201,9 @@ improvement_lb.place(x=1035, y=130)
 improvement_lb.bind('<Enter>', improvement_red)
 improvement_lb.bind('<Leave>', improvement_white)
 
-# Шрифты
-# A1
 a1_lb = Label(text='А',font=font12, fg=red_color_day, bg=black_color)
 a1_lb.place(x=1210, y=79)
-# A2
+
 def a2_red(event):
     a2_lb['fg'] = red_color_day
 def a2_white(event):
@@ -236,7 +212,7 @@ a2_lb = Label(text='А',font=font14, fg=white_color, bg=black_color)
 a2_lb.place(x=1225, y=76)
 a2_lb.bind('<Enter>', a2_red)
 a2_lb.bind('<Leave>', a2_white)
-# A3
+
 def a3_red(event):
     a3_lb['fg'] = red_color_day
 def a3_white(event):
@@ -246,8 +222,6 @@ a3_lb.place(x=1240, y=75)
 a3_lb.bind('<Enter>', a3_red)
 a3_lb.bind('<Leave>', a3_white)
 
-
-# Постеры
 poster1_img = PhotoImage(file='poster1_light.png')
 poster2_img = PhotoImage(file='poster2_light.png')
 poster3_img = PhotoImage(file='poster3_light.png')
@@ -289,7 +263,6 @@ button5.place(x=1195, y=202)
 button6 = Button(image=empty, bg=red_color_day, borderwidth=0, highlightthickness=0, command=poster6)
 button6.place(x=1214, y=202)
 
-# Смена темы
 def sun_gray(event):
     theme_button['image'] = sun_gray_img
 def sun_white(event):
@@ -404,8 +377,6 @@ theme_button.bind('<Leave>', sun_white)
 theme_button.bind('<Button>', dark_theme)
 theme_button.place(x=1212, y=9)
 
-
-# Личный кабинет
 def account_gray(event):
     account_button['image'] = account_image_gray
 def account_white(event):
@@ -413,22 +384,18 @@ def account_white(event):
 account_image_white = PhotoImage(file='user_white.png')
 account_image_gray = PhotoImage(file='user_gray.png')
 
-
 user_logo_img = PhotoImage(file='user_big_light.png')
 add_image = PhotoImage(file='add_light.png')
 add_image_gray = PhotoImage(file='add_gray.png')
 coin_img = PhotoImage(file='coin_light.png')
-
-
-
 user = []
 authorise_status = False
 reg_log = 'reg'
 transactions = []
 bonuses = 0
+
 def account_window():
     global authorise_status
-    # Окно личного кабинета
     if theme == 'light':
         main_color = white_color
         red_color = red_color_day
@@ -449,7 +416,6 @@ def account_window():
     welcome_lb = Label(acc_window, text='', width=31, justify='center', font=font20b, bg=black_color, fg=white_color)
     welcome_lb.place(x=0, y=135)
 
-    # Не авторизованный пользователь
     def unauthorised():
         if theme == 'light':
             main_color = white_color
@@ -494,8 +460,6 @@ def account_window():
                     acc_window.configure(width=400, height=420)
                     authorise_button['text'] = 'Ошибка'
 
-        # Поля для ввода
-        # Имя
         def user_name_clear(event):
             if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != (
                     '*' * 17):
@@ -516,7 +480,6 @@ def account_window():
         user_name_entry.bind('<FocusIn>', user_name_clear)
         user_name_entry.bind('<FocusOut>', user_name_start)
 
-        # Логин
         def login_clear(event):
             if login_entry.get() and login_entry.get() != 'Придумайте логин' and login_entry.get() != 'Введите логин':
                 if reg_log == 'log':
@@ -542,7 +505,6 @@ def account_window():
         login_entry.bind('<FocusIn>', login_clear)
         login_entry.bind('<FocusOut>', login_start)
 
-        # Пароль
         def password_clear(event):
             if password_entry.get() and password_entry.get() != 'Придумайте пароль' and password_entry.get() != 'Введите пароль':
                 if reg_log == 'log':
@@ -571,12 +533,10 @@ def account_window():
         password_entry.bind('<FocusOut>', password_start)
         password_entry.bind('<KeyPress>', password_enter)
 
-        # Кнопка регистрации/входа
         authorise_button = Button(acc_window, text='Зарегистрироваться', font=font20, bg=red_color, fg=white_color,
                                   width=28, height=2, relief='flat', borderwidth=0, command=authorise,
                                   activebackground=red_gray_color, activeforeground=white_color)
 
-        # Регистрация
         def reg(event):
             global reg_log
             reg_log = 'reg'
@@ -599,7 +559,6 @@ def account_window():
             authorise_button['text'] = 'Зарегистрироваться'
             authorise_button.place(x=35, y=375)
 
-        # Вход
         def log(event):
             global reg_log
             reg_log = 'log'
@@ -638,18 +597,17 @@ def account_window():
         reg_log_button.bind('<Leave>', login_red)
         reg_log_button.bind('<Button>', log)
 
-
-    # Авторизованный пользователь
     def authorised():
         def log_out():
-            global authorized, reg_log, transactions
-            authorized = False
+            global authorise_status, reg_log
+            authorise_status = False
             expenses_img_lb.destroy()
             expenses_lb.destroy()
             bonuses_img_lb.destroy()
             bonuses_lb.destroy()
             log_out_button.destroy()
-            transactions = []
+            # transactions = []
+            # bonuses = 0
             reg_log = 'reg'
             unauthorised()
 
@@ -830,7 +788,6 @@ def account_window():
                 promolabel.place(x=225, y=y_pos)
                 y_pos += 100
 
-
         welcome_lb['text'] = user[0]
         acc_window.expenses_img = PhotoImage(file='expenses_light.png')
         acc_window.bonuses_img = PhotoImage(file='bonuses_dark.png')
@@ -847,7 +804,6 @@ def account_window():
             red_color = red_color_night
             acc_window.expenses_img['file'] = 'expenses_dark.png'
             acc_window.bonuses_img['file'] = 'bonuses_dark.png'
-
 
         expenses_img_lb = Button(acc_window, image=acc_window.expenses_img, bg=main_color, relief='flat',
                                  borderwidth=0, activebackground=main_color, command=expenses_window)
