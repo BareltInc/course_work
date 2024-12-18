@@ -119,7 +119,7 @@ search = Entry(main_window, font=font15b, fg=red_gray_color, bg=main_color, bord
 search.place(x=875, y=8, width=265, height=25)
 search.insert(0, '  Поиск')
 search.bind('<ButtonPress>', search_clear)
-search.bind('<Deactivate>', search_start)
+search.bind('<FocusOut>', search_start)
 div_search = Canvas(width=1, height=15, bg=red_color, borderwidth=0, highlightthickness=0, relief='flat')
 div_search.place(x=1100, y=13)
 search_img_day = PhotoImage(file='search_light.png')
@@ -281,7 +281,7 @@ def moon_white(event):
 
 theme = 'light'
 def dark_theme(event):
-    global main_color, red_color, theme
+    global  main_color, red_color, theme
     theme = 'dark'
     main_color = dark_gray_color
     red_color = red_color_night
