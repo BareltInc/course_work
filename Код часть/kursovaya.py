@@ -450,15 +450,19 @@ def account_window():
                 u_name = user_name_entry.get()
                 u_login = login_entry.get()
                 u_password = password_entry.get()
-                user = [u_name, u_login, u_password]
-                authorise_status = True
-                reg_log_lb.destroy()
-                user_name_entry.destroy()
-                login_entry.destroy()
-                password_entry.destroy()
-                authorise_button.destroy()
-                reg_log_button.destroy()
-                authorised()
+                if u_name != 'Введите ваше имя' and u_login != 'Придумайте логин' and u_password != 'Придумайте пароль':
+                    user = [u_name, u_login, u_password]
+                    authorise_status = True
+                    reg_log_lb.destroy()
+                    user_name_entry.destroy()
+                    login_entry.destroy()
+                    password_entry.destroy()
+                    authorise_button.destroy()
+                    reg_log_button.destroy()
+                    authorised()
+                else:
+                    authorise_button['text'] = 'Ошибка'
+
             if reg_log == 'log':
                 u_login = login_entry.get()
                 u_password = password_entry.get()
@@ -621,8 +625,6 @@ def account_window():
             bonuses_img_lb.destroy()
             bonuses_lb.destroy()
             log_out_button.destroy()
-            # transactions = []
-            # bonuses = 0
             reg_log = 'reg'
             unauthorised()
 
@@ -647,32 +649,37 @@ def account_window():
                     main_color = dark_gray_color
                     sec_color = white_color
                     red_color = red_color_night
+
                 def get_transaction():
                     global bonuses
                     price = 0
-                    date = calendar.get_date()
-                    litres = int(litres_entry.get())
-                    gas = gas_choose.get()
-                    match gas:
-                        case 'N/A':
-                            price = 0
-                        case '92':
-                            price = 53
-                        case '95':
-                            price = 57
-                        case '100':
-                            price = 82
-                        case 'ДТ':
-                            price = 68
-                    summ = price*litres
-                    transactions.append({'Дата': date, 'Литры': litres, 'Бензин': gas, 'Сумма': summ, 'Бонусы': round(summ*0.1, 2)})
-                    bonuses += round(summ*0.1, 2)
-                    print(date, litres, gas, bonuses)
-                    transactions_list.insert('', END, values=(transactions[-1]['Дата'],
-                                                              transactions[-1]['Литры'],
-                                                              transactions[-1]['Бензин'],
-                                                              transactions[-1]['Сумма'],
-                                                              transactions[-1]['Бонусы'],))
+                    try:
+                        add_button['text'] = 'Добавить транзакцию'
+                        date = calendar.get_date()
+                        litres = int(litres_entry.get())
+                        gas = gas_choose.get()
+                        match gas:
+                            case '92':
+                                price = 53
+                            case '95':
+                                price = 57
+                            case '100':
+                                price = 82
+                            case 'ДТ':
+                                price = 68
+
+                        summ = price*litres
+                        transactions.append({'Дата': date, 'Литры': litres, 'Бензин': gas, 'Сумма': summ, 'Бонусы': round(summ*0.1, 2)})
+                        bonuses += round(summ*0.1, 2)
+                        print(date, litres, gas, bonuses)
+                        transactions_list.insert('', END, values=(transactions[-1]['Дата'],
+                                                                  transactions[-1]['Литры'],
+                                                                  transactions[-1]['Бензин'],
+                                                                  transactions[-1]['Сумма'],
+                                                                  transactions[-1]['Бонусы'],))
+                    except:
+                        add_button['text'] = 'Ошибка'
+
 
                 add_window = Toplevel(exp_window)
                 add_window.title('Добавление транзакции')
@@ -695,7 +702,7 @@ def account_window():
 
                 gas_label = Label(add_window, text="Бензин:", font=font16, bg=main_color, fg=red_color)
                 gas_label.place(x=185, y=210)
-                gas_types = ['N/A', '92', '95', '100', 'ДТ']
+                gas_types = ['92', '95', '100', 'ДТ']
                 gas_var = StringVar(value=gas_types[0])
                 gas_style = ttk.Style()
                 gas_style.configure('TCombobox', selectbackground=white_color, selectforeground=red_color,
