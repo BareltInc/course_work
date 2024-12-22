@@ -113,7 +113,8 @@ contacts_lb.bind('<Leave>', contacts_white)
 def search_clear(event):
     search.delete(0, END)
 def search_start(event):
-    search.insert(0, '  Поиск')
+    if search == '':
+        search.insert(0, '  Поиск')
 
 search = Entry(main_window, font=font15b, fg=red_gray_color, bg=main_color, borderwidth=0, highlightthickness=0)
 search.place(x=875, y=8, width=265, height=25)
@@ -421,7 +422,7 @@ def account_window():
         user_logo_img['file'] = 'user_big_dark.png'
 
     acc_window = Toplevel(main_window)
-    acc_window.title('Личный кабинет пользователя')
+    acc_window.title('Личный кабинет')
     acc_window.config(width=400, height=480, bg=main_color)
     acc_window.resizable(False, False)
     acc_window.iconbitmap('logo.ico')
@@ -482,12 +483,12 @@ def account_window():
         def user_name_clear(event):
             if user_name_entry.get() and user_name_entry.get() != 'Введите ваше имя' and user_name_entry.get() != (
                     '*' * 17):
-                pass
+                authorise_button['text'] = 'Ошибка'
             else:
                 user_name_entry.delete(0, END)
         def user_name_start(event):
             if user_name_entry.get():
-                pass
+                authorise_button['text'] = 'Ошибка'
             else:
                 user_name_entry.delete(0, END)
                 user_name_entry.insert(0, 'Введите ваше имя')
@@ -503,13 +504,20 @@ def account_window():
             if login_entry.get() and login_entry.get() != 'Придумайте логин' and login_entry.get() != 'Введите логин':
                 if reg_log == 'log':
                     authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
             else:
                 login_entry.delete(0, END)
                 if reg_log == 'log':
                     authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
         def login_start(event):
             if login_entry.get():
-                pass
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
             else:
                 login_entry.delete(0, END)
                 if reg_log == 'reg':
@@ -528,13 +536,20 @@ def account_window():
             if password_entry.get() and password_entry.get() != 'Придумайте пароль' and password_entry.get() != 'Введите пароль':
                 if reg_log == 'log':
                     authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
             else:
                 password_entry.delete(0, END)
                 if reg_log == 'log':
                     authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
         def password_start(event):
             if password_entry.get():
-                pass
+                if reg_log == 'log':
+                    authorise_button['text'] = 'Войти'
+                if reg_log == 'reg':
+                    authorise_button['text'] = 'Зарегистрироваться'
             else:
                 password_entry.delete(0, END)
                 if reg_log == 'reg':
