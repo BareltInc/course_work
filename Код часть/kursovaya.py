@@ -236,7 +236,7 @@ poster3_img = PhotoImage(file='poster3_light.png')
 poster4_img = PhotoImage(file='poster4_light.png')
 poster5_img = PhotoImage(file='poster5_light.png')
 poster6_img = PhotoImage(file='poster6_light.png')
-poster = Label(image=poster1_img, bg=main_color, borderwidth=0, highlightthickness=0)
+poster = Label(image=poster4_img, bg=main_color, borderwidth=0, highlightthickness=0)
 poster.place(x=27, y=190)
 def poster1():
     global poster
