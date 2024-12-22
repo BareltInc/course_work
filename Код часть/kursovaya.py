@@ -574,6 +574,7 @@ def account_window():
             login_entry.insert(0, 'Придумайте логин')
             password_entry.place(x=35, y=310)
             password_entry.delete(0, END)
+            password_entry['show'] = ''
             password_entry.insert(0, 'Придумайте пароль')
             authorise_button['text'] = 'Зарегистрироваться'
             authorise_button.place(x=35, y=375)
@@ -653,11 +654,14 @@ def account_window():
                 def get_transaction():
                     global bonuses
                     price = 0
+                    add_button['text'] = 'Добавить транзакцию'
+                    date = calendar.get_date()
                     try:
-                        add_button['text'] = 'Добавить транзакцию'
-                        date = calendar.get_date()
                         litres = int(litres_entry.get())
-                        gas = gas_choose.get()
+                    except:
+                        add_button['text'] = 'Ошибка'
+                    gas = gas_choose.get()
+                    if gas and date:
                         match gas:
                             case '92':
                                 price = 53
@@ -667,7 +671,6 @@ def account_window():
                                 price = 82
                             case 'ДТ':
                                 price = 68
-
                         summ = price*litres
                         transactions.append({'Дата': date, 'Литры': litres, 'Бензин': gas, 'Сумма': summ, 'Бонусы': round(summ*0.1, 2)})
                         bonuses += round(summ*0.1, 2)
@@ -677,7 +680,7 @@ def account_window():
                                                                   transactions[-1]['Бензин'],
                                                                   transactions[-1]['Сумма'],
                                                                   transactions[-1]['Бонусы'],))
-                    except:
+                    else:
                         add_button['text'] = 'Ошибка'
 
 
@@ -703,7 +706,7 @@ def account_window():
                 gas_label = Label(add_window, text="Бензин:", font=font16, bg=main_color, fg=red_color)
                 gas_label.place(x=185, y=210)
                 gas_types = ['92', '95', '100', 'ДТ']
-                gas_var = StringVar(value=gas_types[0])
+                gas_var = StringVar()
                 gas_style = ttk.Style()
                 gas_style.configure('TCombobox', selectbackground=white_color, selectforeground=red_color,
                                     background=white_color, foreground=red_color, fieldbackground=white_color,
